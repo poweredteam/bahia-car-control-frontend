@@ -8,6 +8,7 @@ function Home(props) {
     return (
         <div>
             home
+            button
             <button onClick={dispatch(actionTest())}>Test</button>
         </div>
     );
