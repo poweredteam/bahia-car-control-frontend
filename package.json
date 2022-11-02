@@ -23,6 +23,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint --fix --ext .js,.jsx .",
+    "format": "prettier -w .",
     "co": "sui-mono commit"
   },
   "eslintConfig": {
@@ -44,6 +46,14 @@
     ]
   },
   "devDependencies": {
-    "@s-ui/mono": "^2.34.0"
+    "@s-ui/mono": "^2.34.0",
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.4.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.31.10",
+    "prettier": "^2.7.1"
   }
 }
