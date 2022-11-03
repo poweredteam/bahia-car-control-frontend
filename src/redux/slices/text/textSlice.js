@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: 'Hi',
+  value: 'Hi'
 }
 
 export const textSlice = createSlice({
@@ -10,8 +10,8 @@ export const textSlice = createSlice({
   reducers: {
     changeText: (state, action) => {
       state.value = action.payload
-    },
-  },
+    }
+  }
 })
 
 export const { changeText } = textSlice.actions
