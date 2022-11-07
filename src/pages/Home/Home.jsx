@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Container } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeText } from 'redux/slices'
 import { Cards, Card } from './components'
@@ -11,14 +12,14 @@ function Home() {
   return (
     <div>
       <Card />
-      <Cards />
+      {/* <Cards />
       <h1>{textStore}</h1>
       <input
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <button onClick={() => dispatch(changeText(text))}>Change text</button>
+      <button onClick={() => dispatch(changeText(text))}>Change text</button> */}
     </div>
   )
 }
