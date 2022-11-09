@@ -4,13 +4,13 @@ import Card from './Card'
 function Cards() {
   return (
     <Box bg='#F9FAFD' w='908px' h='800px' padding={4}>
-      <Stack direction={['column', 'row']} justifyContent='space-between' wrap='wrap'>
+      <Flex gap='20px' justifyContent='space-between' wrap='wrap'>
         <Card/>
         <Card/>
         <Card/>
         <Card/>
         <Card/>
-      </Stack>
+      </Flex>
     </Box>
   )
 }
