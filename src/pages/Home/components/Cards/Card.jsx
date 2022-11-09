@@ -1,49 +1,51 @@
 // import React from 'react'
-import { Box, Flex, Spacer, Center, Text, Square, Button, ButtonGroup, IconButton, Icon } from '@chakra-ui/react'
-import { PlayIcon, PauseIcon } from '../../../.././resource/Svg'
+import { Box, Flex, Spacer, Center, Text, Button, Icon } from '@chakra-ui/react'
+import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
+import './Card.css'
 
 function Card() {
-  const play = false
+  const [play, setPlay] = useState(true)
 
-  return <Box bg='#FFFFFF' w ='100%' maxW= '230px' h='304px' maxH='304px' overflow='hidden' borderRadius='5px'>
-    <Flex bg ='#E2E8F0' width='100%' align='center' height='63px'>
+  return <Box bg='white' w ='100%' maxW= '230px' h='304px' maxH='304px' overflow='hidden' borderRadius='5px'>
+    <Flex bg ='brand.greyLigth' width='100%' align='center' height='63px'>
       <Flex flex={4} direction='column' justify='center' align ='center' width='78px'>
         <Flex w='78px'direction='column' justify='center' align ='center'>
-          <Text fontSize='14px' fontWeight='medium' color='#4A5568'>PLACA</Text>
+          <Text fontSize='14px' fontWeight='medium' color='brand.dark'>PLACA</Text>
         </Flex>
         <Flex bg='white' w='78px'direction='column' justify='center' align ='center' borderRadius='5px'>
-          <Text fontSize='16px' fontWeight='semibold' color='#4A5568'>AAA111</Text>
+          <Text fontSize='16px' fontWeight='semibold' color='brand.dark'>AAA111</Text>
         </Flex>
       </Flex>
       <Spacer></Spacer>
       <Flex flex={4} direction='column' justify='center' align ='center' width='78px'>
         <Flex w='78px'direction='column' justify='center' align ='center'>
-          <Text fontSize='14px' fontWeight='medium' color='#4A5568'>ESTACION</Text>
+          <Text fontSize='14px' fontWeight='medium' color='brand.dark'>ESTACION</Text>
         </Flex>
         <Flex bg='white' w='78px'direction='column' justify='center' align ='center' borderRadius='5px'>
-          <Text fontSize='16px' fontWeight='semibold' color='#4A5568'>2</Text>
+          <Text fontSize='16px' fontWeight='semibold' color='brand.dark'>2</Text>
         </Flex>
       </Flex>
     </Flex>
     <Flex direction='column' justify='center' align='center'>
       <Flex>
-        <Text fontSize='36px' fontWeight='medium' color='#4A5568'>00:22:03</Text>
+        <Text fontSize='36px' fontWeight='medium' color='brand.dark'>00:22:03</Text>
       </Flex>
       <Flex h='110px'>
-        <Button bg='#F49237' borderRadius='100px' h='100px' w='100px'>
-          <Center color ='#F9FAFD'>
-            {
-              <span width='80px'>{ play ? <FaPlay width={60}/> : <FaPause/>}</span>
-            }
-            {/* <Icon as={play ? FaPlay : FaPause} w='60px' h='60px' fill='#F9FAFD'/> */}
-          </Center>
+        <Button bg='brand.sec' borderRadius='100px' h='100px' w='100px'>
+          {play ? <Center color ='white' w='100px' justifyContent='flex-end'>
+                <Icon as = {FaPlay} w='60px' h='60px' />
+              </Center>
+            : <Center color ='white' w='100px' justifyContent='center'>
+                <Icon as = {FaPause} w='60px' h='60px' />
+              </Center>
+          }
         </Button>
       </Flex>
       <Flex width='191px' h='70px' direction='column' justify='center' align='center' paddingBottom='3px'>
-        <Button bg='#DD6B20' color='#F9FAFD' width='191px' height='30px'>FINALIZAR</Button>
+        <Button bg='brand.sec' color='white' width='191px' height='30px' onClick={() => setPlay(false)}>FINALIZAR</Button>
         <Spacer/>
-        <Button bg='#F9FAFD' color='#4A5568' width='191px' height='30px'>EDITAR SERVICIO</Button>
+        <Button bg='brand.greyLigth' color='brand.dark' width='191px' height='30px' onClick={() => setPlay(true)}>EDITAR SERVICIO</Button>
       </Flex>
     </Flex>
   </Box>
