@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Container } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeText } from 'redux/slices'
 import { Cards, Card } from './components'
