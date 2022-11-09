@@ -1,5 +1,5 @@
 // import './styles/App.css'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { Routes, Route } from 'react-router-dom'
 import { Home } from './pages'
 

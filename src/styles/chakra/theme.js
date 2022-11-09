@@ -11,7 +11,7 @@ const theme = extendTheme({
       pri: '#E17614',
       sec: '#F09135',
       select: '#F88319',
-      greyLigth: '#E2E8F0',
+      greyLight: '#E2E8F0',
       dark: '#353C4A',
       light: '#FFFFF7'
     }

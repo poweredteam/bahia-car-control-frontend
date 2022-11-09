@@ -6,7 +6,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import store from './redux/store'
 import App from './App'
-import theme from 'chakra/theme'
+import theme from 'styles/chakra/theme'
 // import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
