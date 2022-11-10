@@ -1,5 +1,5 @@
 // import React from 'react'
-import { Box, Flex, Spacer, Center, Text, Button, Icon } from '@chakra-ui/react'
+import { Box, Flex, Spacer, Center, Text, Button, Icon, HStack, Stack } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
 import './Card.css'
@@ -11,14 +11,14 @@ function Card() {
   <div>
     <Box bg='white' w ='100%' maxW= '230px' minW='220px' h='304px' maxH='400px' overflow='hidden' boxShadow='0px 0px 10px -2px' borderRadius='5px' >
       <Flex bg ='brand.greyLight' width='100%' align='center' height='63px'>
-        <Flex flex={4} direction='column' justify='center' align ='center' width='78px'>
+        <Stack flex={4} direction={['column', 'row']} justify='center' align ='center' width='78px'>
           {/* <Flex w='78px'direction='column' justify='center' align ='center'> */}
             <Text fontSize='14px' fontWeight='medium' color='brand.dark'>PLACA</Text>
           {/* </Flex> */}
           {/* <Flex bg='white' w='78px'direction='column' justify='center' align ='center' borderRadius='5px'> */}
             <Text bg='white' borderRadius='5px' fontSize='16px' fontWeight='semibold' color='brand.dark'>AAA111</Text>
           {/* </Flex> */}
-        </Flex>
+        </Stack>
         <Spacer></Spacer>
         <Flex flex={4} direction='column' justify='center' align ='center' width='78px'>
           <Flex w='78px'direction='column' justify='center' align ='center'>

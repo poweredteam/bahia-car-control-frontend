@@ -1,7 +1,7 @@
 import { Box, Flex, Spacer, Center, Text, Button, Icon } from '@chakra-ui/react'
 
 function Card2(props) {
-    return (
+  return (
         <div className="card-container">
             <div className="card-header">
                 <div className='card-license-info'>
@@ -20,8 +20,7 @@ function Card2(props) {
 
             </div>
         </div>
-    );
+  )
 }
 
-
-export default Card2;
+export default Card2
