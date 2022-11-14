@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types'
 import { Container, Divider, HStack } from '@chakra-ui/react'
-
-import SideBar from 'components/SideBar/SideBar'
+import { SideBar } from '../SideBar'
 
 export default function Layout({ children }) {
   return (
@@ -13,9 +13,13 @@ export default function Layout({ children }) {
         <SideBar />
         <Divider orientation="vertical" />
         <HStack justify={'center'} align={'center'}>
-          {children}
+          { children }
         </HStack>
       </HStack>
     </Container>
   )
+}
+
+Layout.propTypes = {
+  children: PropTypes.node
 }
