@@ -5,7 +5,7 @@ import SideBar from 'components/SideBar/SideBar'
 export default function Layout({ children }) {
   return (
     <Container
-      h="100vh"
+      h="inherit"
       alignSelf="flex-start"
       maxW="container.xl"
       border="1px">
