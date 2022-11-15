@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Container } from '@chakra-ui/react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeText } from 'redux/slices'
+
 import { Cards, Card } from './components'
 import { getClients } from '../../redux/slices/clients'
 
