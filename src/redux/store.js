@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { textSlice, clientSlice } from './slices'
+import { textSlice, authSlice, clientSlice } from './slices'
 
 const store = configureStore({
   reducer: {
     text: textSlice.reducer,
+    auth: authSlice.reducer,
     clients: clientSlice.reducer
   }
 })

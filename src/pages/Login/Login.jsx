@@ -1,11 +1,11 @@
-import React from 'react'
-import { Card } from './components'
+import { Form } from './components'
+import { Flex } from '@chakra-ui/react'
 
 function Login() {
   return (
-    <div>
-      <Card />
-    </div>
+    <Flex>
+      <Form />
+    </Flex>
   )
 }
 
