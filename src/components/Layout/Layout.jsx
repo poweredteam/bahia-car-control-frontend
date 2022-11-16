@@ -7,8 +7,7 @@ export default function Layout({ children }) {
     <Container
       h="inherit"
       alignSelf="flex-start"
-      maxW="container.xl"
-      border="1px">
+      maxW="container.xl">
       <HStack spacing="4" h="inherit">
         <SideBar />
         <Divider orientation="vertical" />

@@ -1,24 +1,51 @@
 import { AiFillHome, AiOutlineHome } from 'react-icons/ai'
+import { BsFileBarGraph, BsFileBarGraphFill } from 'react-icons/bs'
 import { RiShieldUserFill, RiShieldUserLine } from 'react-icons/ri'
-import { BsFileBarGraphFill, BsFileBarGraph } from 'react-icons/bs'
+
+import { Home } from 'pages'
+import { Card } from 'pages/Home/components'
 
 export const SECTIONS = [
   {
     title: 'INICIO',
-    href: '/',
+    path: '/',
     activeIcon: AiFillHome,
-    inactiveIcon: AiOutlineHome
+    inactiveIcon: AiOutlineHome,
+    component: Home
   },
   {
     title: 'PANEL DE ADMIN',
-    href: '/admin',
+    path: '/admin',
     activeIcon: RiShieldUserFill,
     inactiveIcon: RiShieldUserLine
   },
   {
     title: 'INFORMES',
-    href: '/informes',
+    path: '/info',
     activeIcon: BsFileBarGraphFill,
-    inactiveIcon: BsFileBarGraph
+    inactiveIcon: BsFileBarGraph,
+    component: Card
+  }
+]
+
+export const filteredSections = SECTIONS.filter((s) => s.path !== '/admin')
+export const PA = SECTIONS.find((s) => s.path === '/admin')
+
+export const adminPages = [
+  {
+    title: 'Estaciones',
+    href: '/stat'
+  },
+  {
+    title: 'Técnicos',
+    href: '/tecn'
+  },
+  {
+    title: 'Productos',
+    href: '/prod'
+  },
+  {
+    title: 'Servicios',
+    href: '/serv'
   }
 ]

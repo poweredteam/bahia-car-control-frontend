@@ -1,12 +1,14 @@
-// import './styles/App.css'
 import { Route } from 'wouter'
-import { Home } from './pages'
+
 import Layout from 'components/Layout'
+import { SECTIONS } from 'utilities/constans'
 
 function App() {
   return (
     <Layout>
-      <Route path="/" component={Home} />
+      {SECTIONS.map(({ path, component }) => {
+        return <Route key={path} path={path} component={component} />
+      })}
     </Layout>
   )
 }

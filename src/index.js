@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import { StrictMode } from 'react'
 import { Provider } from 'react-redux'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import '@fontsource/roboto/400.css'
 
 import store from './redux/store'
 import App from './App'
@@ -13,6 +14,7 @@ root.render(
   <StrictMode>
     <Provider store={store}>
       <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <App />
       </ChakraProvider>
     </Provider>
