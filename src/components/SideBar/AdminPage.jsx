@@ -14,6 +14,7 @@ export default function AdminPage({ title, href, i }) {
       borderTop={i === 0 ? '1px' : 0}
       borderColor="brand.primaryLightVariant"
       cursor="pointer"
+      boxShadow="sm"
       _before={{
         content: '""',
         position: 'absolute',

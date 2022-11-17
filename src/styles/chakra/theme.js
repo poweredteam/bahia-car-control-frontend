@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme, transition } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 
 import { accordionTheme } from './accordion'
@@ -24,8 +24,8 @@ const theme = extendTheme({
       triadicGreenLight: '#7EE114',
       triadicGreenDark: '#14E177',
       grayLight: '#E2E8F0',
-      dark: '#212121',
-      light: '#FFFFF7'
+      dark: '#424242',
+      light: '#ECEFF1'
     }
   },
   styles: {
@@ -39,13 +39,9 @@ const theme = extendTheme({
         display: 'none'
       },
       body: {
-        bg: mode('brand.light', 'brand.dark')(props)
-      },
-      '.active': {
-        '&::before': {
-          left: '17px',
-          transition: 'left .2s ease'
-        }
+        bg: mode('brand.dark', 'brand.light')(props),
+        transition: '0.2s',
+        ease: 'linear'
       }
     })
   },

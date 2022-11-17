@@ -23,7 +23,12 @@ export default function SectionSideBar() {
     <VStack spacing="0" w="full" h="70%">
       {filteredSections.map(({ title, path, activeIcon, inactiveIcon }) => {
         return (
-          <HStack key={title} h="3rem" w="inherit" cursor="pointer">
+          <HStack
+            key={title}
+            h="3rem"
+            w="inherit"
+            cursor="pointer"
+            boxShadow="base">
             <Link as={ReachLink} href={path}>
               <HStack
                 as={motion.div}
@@ -43,7 +48,7 @@ export default function SectionSideBar() {
         )
       })}
       <Accordion allowMultiple>
-        <AccordionItem>
+        <AccordionItem boxShadow="base">
           {({ isExpanded }) => (
             <>
               <AccordionButton _expanded={{ bg: 'brand.select' }}>
@@ -57,7 +62,7 @@ export default function SectionSideBar() {
                   <AccordionIcon />
                 </HStack>
               </AccordionButton>
-              <AccordionPanel>
+              <AccordionPanel boxShadow="sm">
                 {adminPages?.map(({ title, href }, i) => {
                   return (
                     <AdminPage key={title} title={title} href={href} i={i} />
