@@ -5,10 +5,9 @@ import { SideBar } from '../SideBar'
 export default function Layout({ children }) {
   return (
     <Container
-      h="100vh"
+      h="inherit"
       alignSelf="flex-start"
-      maxW="container.xl"
-      border="1px">
+      maxW="container.xl">
       <HStack spacing="4" h="inherit">
         <SideBar />
         <Divider orientation="vertical" />

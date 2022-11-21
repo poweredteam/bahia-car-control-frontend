@@ -1,4 +1,3 @@
-// import React from 'react'
 import { Box, Flex, Spacer, Center, Text, Button, Icon } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
