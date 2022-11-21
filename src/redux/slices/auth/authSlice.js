@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { saveState } from 'utilities/localStorage'
-import { signIn } from './thunk'
+import { forgotPassword, signIn } from './thunk'
 
 const initialState = {
   message: {}
@@ -22,12 +22,13 @@ export const authSlice = createSlice({
     builder.addCase(signIn.rejected, (state, action) => {
       state.message = {
         type: 'error',
-        msg: action.payload
+        msg: action.payload.message
       }
+    })
+    builder.addCase(forgotPassword.rejected, (state, action) => {
+      console.log(action.payload)
     })
   }
 })
-
-// export const { changeText } = textSlice.actions
 
 export default authSlice

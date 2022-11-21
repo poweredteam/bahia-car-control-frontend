@@ -3,31 +3,27 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   FormLabel,
-  Input,
-  useDisclosure
+  Input
 } from '@chakra-ui/react'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { signIn } from 'redux/slices/auth/thunk'
+import { useDispatch } from 'react-redux'
+import { signUp } from 'redux/slices/auth/thunk'
 import { createUserAdapter } from 'adapters'
-import { Modal } from 'components/Modal'
 
 const initialState = {
+  username: '',
   email: '',
-  password: ''
+  password: '',
+  confirmPassword: ''
 }
 
 function Form() {
   const [values, setValues] = useState(initialState)
-  const { msg, type } = useSelector((state) => state.auth.message)
+  const [isWrong, setIsWrong] = useState(false)
   const dispatch = useDispatch()
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const { email, password } = values
-  const isWrong = type === 'error'
+  const { username, email, password, confirmPassword } = values
 
   const handleChange = ({ target }) => {
     setValues({
@@ -38,13 +34,24 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    dispatch(signIn(createUserAdapter(values)))
+    if (confirmPassword !== password) {
+      return setIsWrong(true)
+    }
+    dispatch(signUp(createUserAdapter(values)))
   }
 
   return (
-    <>
     <form onSubmit={handleSubmit}>
-      <FormControl isRequired isInvalid={isWrong}>
+      <FormControl isRequired>
+        <FormLabel>Nombre de usuario</FormLabel>
+        <Input
+          type='text'
+          name='username'
+          value={username}
+          onChange={handleChange}
+        />
+      </FormControl>
+      <FormControl isRequired>
         <FormLabel>Correo electronico</FormLabel>
         <Input
           type='email'
@@ -61,20 +68,24 @@ function Form() {
           value={password}
           onChange={handleChange}
         />
+      </FormControl>
+      <FormControl isRequired isInvalid={isWrong}>
+        <FormLabel>Confirmar contraseña</FormLabel>
+        <Input
+          type='password'
+          name='confirmPassword'
+          value={confirmPassword}
+          onChange={handleChange}
+        />
         {isWrong &&
-          <FormErrorMessage>{ msg }</FormErrorMessage>
+          <FormErrorMessage>Las contraseñas no coinciden</FormErrorMessage>
         }
-        <Button colorScheme='teal' variant='link' onClick={onOpen}>
-          ¿Olvidaste tu contraseña?
-        </Button>
       </FormControl>
       <Button
         type='submit'
         colorScheme='blue'
-      >Iniciar Sesión</Button>
+      >Registrar</Button>
     </form>
-    <Modal isOpen={isOpen} onClose={onClose} />
-    </>
   )
 }
 
