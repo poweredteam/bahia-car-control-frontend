@@ -26,14 +26,9 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.4.1",
-<<<<<<< HEAD
     "uuid": "^9.0.0",
     "web-vitals": "^2.1.4",
-    "sort-by": "^1.2.0",
-=======
-    "sort-by": "^1.2.0",
-    "web-vitals": "^2.1.4",
->>>>>>> 48008d3ae4976e72cdf6063387e04cb84f4784be
+    "sort-by": "^1.2.0",,
     "wouter": "^2.8.1"
   },
   "scripts": {
