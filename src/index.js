@@ -1,25 +1,27 @@
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { StrictMode } from 'react'
+import { RouterProvider } from 'react-router-dom'
+
 import { Provider } from 'react-redux'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import '@fontsource/roboto/400.css'
 
 import store from './redux/store'
 import App from './App'
 import theme from './styles/chakra/theme.js'
-// import reportWebVitals from './reportWebVitals';
+import router from './routes/Navigate'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <StrictMode>
-        <ChakraProvider theme={theme}>
-          <App />
-        </ChakraProvider>
-      </StrictMode>
-    </BrowserRouter>
-  </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <ChakraProvider theme={theme}>
+        <RouterProvider router={router} />
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      </ChakraProvider>
+    </Provider>
+  </StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function
