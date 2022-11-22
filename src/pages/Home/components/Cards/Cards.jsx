@@ -3,14 +3,14 @@ import Card from './Card'
 
 function Cards() {
   return (
-    <Box bg='#F9FAFD' w='908px' h='800px' padding={4}>
-      <Stack direction={['column', 'row']} justifyContent='space-between' wrap='wrap'>
+    <Box bg='#F9FAFD' w='908px' h='800px' display='flex' justifyContent='center' position='relative' alignItems='flex-start' >
+      <Flex gap='35px' top='15px' justifyContent='flex-start' wrap='wrap' position='relative' w='800px' paddingStart={3}>
         <Card/>
         <Card/>
         <Card/>
         <Card/>
         <Card/>
-      </Stack>
+      </Flex>
     </Box>
   )
 }
