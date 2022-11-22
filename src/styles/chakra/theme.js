@@ -18,10 +18,6 @@ const theme = extendTheme({
       primaryLightVariant: '#F5C782',
       sec: '#F09135',
       select: '#F88319',
-<<<<<<< HEAD
-      greyLight: '#E2E8F0',
-      dark: '#353C4A',
-=======
       complementaryBlue: '#147EE1',
       analogousRed: '#E11417',
       analogousYellow: '#E1DE14',
@@ -29,7 +25,6 @@ const theme = extendTheme({
       triadicGreenDark: '#14E177',
       grayLight: '#E2E8F0',
       dark: '#212121',
->>>>>>> 48008d3ae4976e72cdf6063387e04cb84f4784be
       light: '#FFFFF7'
     }
   },
