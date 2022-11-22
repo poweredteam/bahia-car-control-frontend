@@ -7,10 +7,15 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import '@fontsource/roboto/400.css'
 
 import store from './redux/store'
+<<<<<<< HEAD
 import App from './App'
 import theme from './styles/chakra/theme.js'
 import router from './routes/Navigate'
 
+=======
+import theme from './styles/chakra/theme'
+import router from './routes/Navigate'
+>>>>>>> 48008d3ae4976e72cdf6063387e04cb84f4784be
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
