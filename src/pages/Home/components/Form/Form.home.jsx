@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './Form.home.css'
 import { addService } from '../../../../redux/slices/services/serviceSlice.js'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
+import { getStations } from '../../../../redux/slices/station/thunk.js'
 import {
   Flex,
   Box,
@@ -15,11 +16,18 @@ import {
 } from '@chakra-ui/react'
 
 function Formcard() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getStations())
+  }, [stationOptions])
+
   const { register, handleSubmit, formState: { errors } } = useForm()
   // Traer las datas de tech y bay con useSelector
   //  const techOptions = useSelector((state) => state.tech)
-  //  const bayOptions = useSelector((state) => state.bay)
-  const techOptions = [
+  const stationOptions = useSelector((state) => state.station.station)
+
+  /*  const techOptions = [
     {
       id: 1,
       value: 'Jhon Doe',
@@ -35,33 +43,7 @@ function Formcard() {
       value: 'James Bond',
       text: 'James Bond'
     }
-  ]
-
-  const bayOptions = [
-    {
-      value: '1',
-      text: '1'
-    },
-    {
-      value: '2',
-      text: '2'
-    },
-    {
-      value: '3',
-      text: '3'
-    }
-  ]
-
-  /* const [service, setService] = useState({
-    dni: '',
-    placa: '',
-    bahia: '',
-    tecnico: ''
-  }) */
-
-  const [baySelected, setBaySelected] = useState(bayOptions[0].value)
-  const [techSelected, setTechSelected] = useState(techOptions[0].value)
-  const dispatch = useDispatch()
+  ] */
 
   const serviceSubmit = (service) => {
     console.log('SERVICE', service)
@@ -96,25 +78,25 @@ function Formcard() {
               {errors.placa?.type === 'maxLength' && <small className='fail'>Placa invalida</small>}
             </Box>
             <Box border='1px' borderColor='gray.400' borderRadius="md">
-              <FormControl value={baySelected}>
-                <Select {...register('bahia', { required: true })} placeholder='Bahía' width='150px'>
+              <FormControl value="Test">
+                <Select {...register('station', { required: true })} placeholder='Estación' width='150px'>
                   {
-                    bayOptions.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.text}</option>
+                    stationOptions.map(opt => (
+                      <option key={opt._id} value={opt.workStation}>{opt.workStation}</option>
                     ))
                   }
                 </Select>
-                {errors.bahia && <small className='fail'>Selecciona una bahía</small>}
+                {errors.station && <small className='fail'>Selecciona una estación</small>}
               </FormControl>
             </Box>
             <Box border='1px' borderColor='gray.400' borderRadius="md">
-              <FormControl value={techSelected}>
+              <FormControl /* value={techSelected} */>
                 <Select {...register('tecnico', { required: true })} placeholder='Tecnico' width='150px'>
-                  {
+{/*                   {
                     techOptions.map(option => (
                       <option key={option.id} value={option.value}>{option.text}</option>
                     ))
-                  }
+                  } */}
                 </Select>
                 {errors.tecnico && <small className='fail'>Selecciona un tecnico</small>}
               </FormControl>
