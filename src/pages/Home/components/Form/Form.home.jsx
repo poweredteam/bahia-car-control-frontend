@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './Form.home.css'
 import { addService } from '../../../../redux/slices/services/serviceSlice.js'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
 import { getStations } from '../../../../redux/slices/station/thunk.js'
+import { getTeches } from '../../../../redux/slices/tech/thunk.js'
 import {
   Flex,
   Box,
@@ -17,41 +20,24 @@ import {
 
 function Formcard() {
   const dispatch = useDispatch()
+  const { register, handleSubmit, formState: { errors }, reset } = useForm()
+  // Trae las datas de tech y station con useSelector
+  const techOptions = useSelector((state) => state.tech.tech)
+  const stationOptions = useSelector((state) => state.station.station)
+  const notify = () => toast.success('🦄 Servicio creado satisfactoriamente', { autoClose: 3000 })
 
   useEffect(() => {
     dispatch(getStations())
-  }, [stationOptions])
-
-  const { register, handleSubmit, formState: { errors } } = useForm()
-  // Traer las datas de tech y bay con useSelector
-  //  const techOptions = useSelector((state) => state.tech)
-  const stationOptions = useSelector((state) => state.station.station)
-
-  /*  const techOptions = [
-    {
-      id: 1,
-      value: 'Jhon Doe',
-      text: 'Jhon Doe'
-    },
-    {
-      id: 2,
-      value: 'Peter Parker',
-      text: 'Peter Parker'
-    },
-    {
-      id: 3,
-      value: 'James Bond',
-      text: 'James Bond'
-    }
-  ] */
-
+    dispatch(getTeches())
+  }, [])
   const serviceSubmit = (service) => {
-    console.log('SERVICE', service)
     // Make validations here (DNI && PLACA) update service-state before
     dispatch(addService({
       ...service,
       id: uuid()
     }))
+    reset()
+    notify()
   }
   return (
     <Box p={10}>
@@ -78,7 +64,7 @@ function Formcard() {
               {errors.placa?.type === 'maxLength' && <small className='fail'>Placa invalida</small>}
             </Box>
             <Box border='1px' borderColor='gray.400' borderRadius="md">
-              <FormControl value="Test">
+              <FormControl>
                 <Select {...register('station', { required: true })} placeholder='Estación' width='150px'>
                   {
                     stationOptions.map(opt => (
@@ -90,13 +76,13 @@ function Formcard() {
               </FormControl>
             </Box>
             <Box border='1px' borderColor='gray.400' borderRadius="md">
-              <FormControl /* value={techSelected} */>
+              <FormControl>
                 <Select {...register('tecnico', { required: true })} placeholder='Tecnico' width='150px'>
-{/*                   {
+                  {
                     techOptions.map(option => (
-                      <option key={option.id} value={option.value}>{option.text}</option>
+                      <option key={option._id} value={option.name}>{option.name}</option>
                     ))
-                  } */}
+                  }
                 </Select>
                 {errors.tecnico && <small className='fail'>Selecciona un tecnico</small>}
               </FormControl>
@@ -106,6 +92,7 @@ function Formcard() {
                 <Button type="submit" colorScheme='orange' width='150px'>
                   Iniciar
                 </Button>
+                <ToastContainer theme="colored"/>
               </FormControl>
             </Box>
           </HStack>
