@@ -5,7 +5,6 @@ import './Form.home.css'
 import { addService } from '../../../../redux/slices/services/serviceSlice.js'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { v4 as uuid } from 'uuid'
 import { getStations } from '../../../../redux/slices/station/thunk.js'
 import { getTeches } from '../../../../redux/slices/tech/thunk.js'
 import {
@@ -21,26 +20,41 @@ import {
 function Formcard() {
   const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors }, reset } = useForm()
-  // Trae las datas de tech y station con useSelector
+  // Get data tech/station/service using useSelector
   const techOptions = useSelector((state) => state.tech.tech)
   const stationOptions = useSelector((state) => state.station.station)
+  const serviceRedux = useSelector((state) => state.service.service)
+  // Custom notifications
   const notify = () => toast.success('🦄 Servicio creado satisfactoriamente', { autoClose: 3000 })
+  const notifyPlacaError = () => toast.error('No se pueden crear dos servicios con la misma placa', { autoClose: 3000 })
+  const currentDate = new Date().toLocaleDateString()
 
   useEffect(() => {
     dispatch(getStations())
     dispatch(getTeches())
   }, [])
   const serviceSubmit = (service) => {
-    // Make validations here (DNI && PLACA) update service-state before
+    const { dni, placa, estacion, tecnico } = service
+    service = {
+      dni,
+      placa: placa.toUpperCase(),
+      estacion,
+      tecnico
+    }
+    const placaFound = serviceRedux.filter((s) => s.placa === service.placa)
+    if (placaFound.length > 0) {
+      notifyPlacaError()
+      return
+    }
     dispatch(addService({
       ...service,
-      id: uuid()
+      fecha: currentDate
     }))
     reset()
     notify()
   }
   return (
-    <Box p={10}>
+    <Box p={5} bg='gray.50'>
       <form onSubmit={handleSubmit(serviceSubmit)}>
         <Flex align="center" justify="end">
           <HStack spacing='24px'>
@@ -65,7 +79,7 @@ function Formcard() {
             </Box>
             <Box border='1px' borderColor='gray.400' borderRadius="md">
               <FormControl>
-                <Select {...register('station', { required: true })} placeholder='Estación' width='150px'>
+                <Select {...register('estacion', { required: true })} placeholder='Estación' width='150px'>
                   {
                     stationOptions.map(opt => (
                       <option key={opt._id} value={opt.workStation}>{opt.workStation}</option>
