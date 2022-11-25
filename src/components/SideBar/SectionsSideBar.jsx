@@ -8,7 +8,8 @@ import {
   Icon,
   Link,
   Text,
-  VStack
+  VStack,
+  Center
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { Link as ReachLink, useLocation } from 'wouter'
@@ -16,48 +17,63 @@ import { Link as ReachLink, useLocation } from 'wouter'
 import { adminPages, filteredSections, PA } from '../../utilities/constans'
 import AdminPage from './AdminPage'
 
-export default function SectionSideBar() {
+export default function SectionSideBar({ d }) {
   const [location] = useLocation()
 
-  return (
-    <VStack spacing="0" w="full" h="70%">
+  return d ? (
+    <VStack
+      as={motion.div}
+      spacing="0"
+      w="full"
+      h="70%"
+      display="inline-block"
+      transition="0.2s linear">
       {filteredSections.map(({ title, path, activeIcon, inactiveIcon }) => {
         return (
-          <HStack key={title} h="3rem" w="inherit" cursor="pointer">
-            <Link as={ReachLink} href={path}>
-              <HStack
-                as={motion.div}
-                pl="4"
-                h="3rem"
-                w="300px"
-                transition="0.2s linear">
-                <Icon
-                  as={location === path ? activeIcon : inactiveIcon}
-                  w="25px"
-                  h="25px"
-                />
-                <Text>{title}</Text>
-              </HStack>
-            </Link>
-          </HStack>
+          <Center key={path} boxShadow="base" h="3rem" w="inherit">
+            <HStack
+              display="inline-block"
+              key={title}
+              w="inherit"
+              h="full"
+              cursor="pointer"
+              alignItems="center"
+              justifyContent="center">
+              <Link as={ReachLink} href={path}>
+                <HStack
+                  as={motion.div}
+                  pl="4"
+                  w="300px"
+                  h="full"
+                  transition="0.2s linear">
+                  <Icon
+                    as={location === path ? activeIcon : inactiveIcon}
+                    boxSize="25px"
+                  />
+                  <Text>{title}</Text>
+                </HStack>
+              </Link>
+            </HStack>
+          </Center>
         )
       })}
       <Accordion allowMultiple>
-        <AccordionItem>
+        <AccordionItem boxShadow="base">
           {({ isExpanded }) => (
             <>
-              <AccordionButton _expanded={{ bg: 'brand.select' }}>
+              <AccordionButton
+                _expanded={{ bg: 'brand.select' }}
+                display="inline-flex">
                 <HStack w="full">
                   <Icon
                     as={!isExpanded ? PA.inactiveIcon : PA.activeIcon}
-                    w="25px"
-                    h="25px"
+                    boxSize="25px"
                   />
                   <Text>{PA.title}</Text>
                   <AccordionIcon />
                 </HStack>
               </AccordionButton>
-              <AccordionPanel>
+              <AccordionPanel boxShadow="sm">
                 {adminPages?.map(({ title, href }, i) => {
                   return (
                     <AdminPage key={title} title={title} href={href} i={i} />
@@ -68,6 +84,21 @@ export default function SectionSideBar() {
           )}
         </AccordionItem>
       </Accordion>
+    </VStack>
+  ) : (
+    <VStack spacing="0" w="full" h="70%" display="inline-block">
+      {filteredSections.map(({ path, activeIcon, inactiveIcon }) => {
+        return (
+          <Center key={path} boxShadow="base" h="3rem" w="inherit">
+            <Link as={ReachLink} href={path}>
+              <Icon
+                as={location === path ? activeIcon : inactiveIcon}
+                boxSize="25px"
+              />
+            </Link>
+          </Center>
+        )
+      })}
     </VStack>
   )
 }
