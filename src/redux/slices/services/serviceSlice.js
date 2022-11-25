@@ -9,7 +9,7 @@ export const serviceSlice = createSlice({
   initialState,
   reducers: {
     addService: (state, action) => {
-      state.service.push(action.payload)
+      state.service = [...state.service, action.payload]
     }
   }
 })
