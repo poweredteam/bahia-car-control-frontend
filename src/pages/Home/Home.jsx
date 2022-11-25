@@ -15,7 +15,6 @@ function Home() {
       maxW="container.xl">
       <Flex flexWrap="wrap">
         <Formcard />
-        <Card />
         <Cards />
       </Flex>
     </Container>

@@ -5,7 +5,7 @@ import SideBar from 'components/SideBar/SideBar'
 export default function Layout({ children }) {
   return (
     <Container h="inherit" alignSelf="flex-start" maxW="container.xl">
-      <HStack spacing="4" h="inherit">
+      <HStack spacing="4" h="inherit" alignItems= "flex-start">
         <SideBar />
         <HStack justify={'center'} align={'center'}>
           { children }

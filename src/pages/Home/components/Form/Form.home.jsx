@@ -51,38 +51,34 @@ function Formcard() {
       estacion,
       tecnico
     }
-    dispatch(validateBack(dni, placa)).then((res) => { console.log(res) 
+    dispatch(validateBack(dni, placa)).then((res) => {
+      if (res.client === false && res.licence === false && res.isRelated === false) {
+        alert('cliente y placa no existe, por favor crealos y relacionalos')
+      }
+      if (res.client === true && res.licence === false && res.isRelated === false) {
+        alert('cliente  existe pero la placa no existe, por favor crea la placa y relacionala al cliente')
+        console.log(res.data)
+      }
+      if (res.client === false && res.licence === true && res.isRelated === false) {
+        alert('cliente no esta creado, pero la placa existe, por favor crea al cliente y relaciona la placa')
+      }
+      if (res.client === true && res.licence === true && res.isRelated === false) {
+        alert('cliente y placa existe, por favor relaciona la placa al cliente')
+        console.log(res.data)
+      }
+      if (res.client === true && res.licence === true && res.isRelated === true) {
+        const placaFound = serviceRedux.filter((s) => s.placa === service.placa)
+        if (placaFound.length > 0) {
+          return notifyPlacaError()
+        } else {
+          dispatch(addService({ ...service, data: res.data, fecha: currentDate }))
+          reset()
+          notify()
+        }
+      }
     })
-    //   if (res.client & res.license && res.isRelated) {
-    //     const placaFound = serviceRedux.filter((s) => s.placa === service.placa)
-    //     if (placaFound.length > 0) {
-    //       return notifyPlacaError()
-    //     } else {
-    //       dispatch(addService({ ...service, fecha: currentDate }))
-    //       reset()
-    //       notify()
-    //     }
-    //   }
-    // })
   }
 
-  // if (res.client & !res.license && !res.isRelated) {
-  //   console.log(res)
-  //   return alert('la placa no existe, creala y relacionala al cliente')
-  // }
-  // if (!res.client & res.license && !res.isRelated) {
-  //   console.log(res)
-  //   return alert('el licente no existe, crealo y relacionalo a la placa')
-  // }
-  // if (res.client & res.license && !res.isRelated) {
-  //   console.log(res)
-  //   return alert(
-  //     'el cliente existe y la placa existe, pero no esta relacionado, relacionalo'
-  //   )
-  // }
-  // if (!res.client & !res.license && !res.isRelated) {
-  //   alert('cliente y placa no existe, crea cliente y placa y relacionalo')
-  // }
   return (
     <Box p={5} bg="gray.50">
       <form onSubmit={handleSubmit(serviceSubmit)}>
