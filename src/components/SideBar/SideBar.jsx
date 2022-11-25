@@ -11,16 +11,16 @@ export default function SideBar() {
   return (
     <>
       <VStack
-      as={motion.div}
+        as={motion.div}
         spacing="6"
         w={flag ? '19rem' : '3rem'}
         h="inherit"
         bg="brand.sec"
         fontSize="2xl"
-        transition='0.2s linear'>
+        transition="0.2s linear">
         <IconButton icon={<FaBug />} onClick={setFlag.toggle} />
-        <Logo />
-        <Sections />
+        <Logo d={flag} />
+        <Sections d={flag} />
         <PanelSideBar d={flag} />
       </VStack>
     </>

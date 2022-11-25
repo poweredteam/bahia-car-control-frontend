@@ -10,6 +10,7 @@ import {
   Circle,
   Center
 } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 import { FaUser, FaMoon, FaSun } from 'react-icons/fa'
 
 export default function PanelSideBar({ d }) {
@@ -23,16 +24,23 @@ export default function PanelSideBar({ d }) {
   const toggleShadow = useColorModeValue('inner', '2xl')
   return (
     <Stack
+      as={motion.div}
       direction={d ? 'row' : 'column'}
-      h="10%"
+      h={d ? '10%' : '25%'}
       p="4"
       w="inherit"
       spacing="2"
       alignItems="center"
       justifyContent="space-around"
-      boxShadow="base">
-      <HStack>
-        <Avatar icon={<FaUser />} bg={primaryVariantToggle} boxShadow={toggleShadow} />
+      boxShadow="base"
+      transition=".2s linear"
+      delay="1">
+      <HStack display="inline-flex">
+        <Avatar
+          icon={<FaUser />}
+          bg={primaryVariantToggle}
+          boxShadow={toggleShadow}
+        />
         {d ? (
           <Text color={darkLightToggle} fontSize="1rem">
             user name
