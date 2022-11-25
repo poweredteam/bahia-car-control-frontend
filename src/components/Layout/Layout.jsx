@@ -8,7 +8,7 @@ export default function Layout({ children }) {
       <HStack spacing="4" h="inherit">
         <SideBar />
         <HStack justify={'center'} align={'center'}>
-          {children}
+          { children }
         </HStack>
       </HStack>
     </Container>

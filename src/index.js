@@ -1,21 +1,21 @@
 import ReactDOM from 'react-dom/client'
 import { StrictMode } from 'react'
+import { RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import '@fontsource/roboto/400.css'
-
 import store from './redux/store'
 import App from './App'
+import router from './routes/Navigate'
 import theme from './styles/chakra/theme'
-// import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <StrictMode>
     <Provider store={store}>
       <ChakraProvider theme={theme}>
+        <RouterProvider router={router} />
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
       </ChakraProvider>
     </Provider>
   </StrictMode>
