@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
 import './Card.css'
 
-function Card() {
+function Card({ license, station }) {
   const [play, setPlay] = useState(true)
 
   return (
@@ -35,7 +35,7 @@ function Card() {
             align="center"
             borderRadius="5px">
             <Text fontSize="16px" fontWeight="semibold" color="brand.dark">
-              AAA111
+              {license}
             </Text>
           </Flex>
         </Flex>
@@ -59,7 +59,7 @@ function Card() {
             align="center"
             borderRadius="5px">
             <Text fontSize="16px" fontWeight="semibold" color="brand.dark">
-              2
+              {station}
             </Text>
           </Flex>
         </Flex>
