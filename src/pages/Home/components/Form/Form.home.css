@@ -5,3 +5,9 @@
 .fail {
     color: #F2317f
 }
+
+input::-webkit-input-placeholder{
+    color:black;
+}
+
+

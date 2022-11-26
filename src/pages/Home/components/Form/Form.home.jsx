@@ -42,7 +42,6 @@ function Formcard() {
       autoClose: 3000
     })
   const currentDate = new Date().toLocaleDateString()
-
   const serviceSubmit = (service) => {
     const { dni, placa, estacion, tecnico } = service
     service = {
@@ -78,11 +77,10 @@ function Formcard() {
       }
     })
   }
-
   return (
-    <Box p={5} bg="gray.50">
+    <Box p={5} bg="gray.100" mt="5" h='80px' w='1041px' shadow='md' borderWidth='1px' borderRadius="md">
       <form onSubmit={handleSubmit(serviceSubmit)}>
-        <Flex align="center" justify="end">
+        <Flex align="center" justify="center">
           <HStack spacing="24px">
             <Box border="1px" borderColor="gray.400" borderRadius="md">
               <FormControl isRequired>
@@ -90,8 +88,7 @@ function Formcard() {
                   type="text"
                   {...register('dni', { required: true, maxLength: 10 })}
                   placeholder="DNI Cliente"
-                  width="150px"
-                  /* onChange={handleChange} */
+                  width="200px"
                 />
               </FormControl>
               {errors.dni?.type === 'required' && (
@@ -107,7 +104,7 @@ function Formcard() {
                   type="text"
                   {...register('placa', { required: true, maxLength: 7 })}
                   placeholder="Placa"
-                  width="150px" /* onChange={handleChange} */
+                  width="150px"
                 />
               </FormControl>
               {errors.placa?.type === 'required' && (
@@ -118,7 +115,7 @@ function Formcard() {
               )}
             </Box>
             <Box border="1px" borderColor="gray.400" borderRadius="md">
-              <FormControl>
+              <FormControl style={{ color: 'black' }}>
                 <Select
                   {...register('estacion', { required: true })}
                   placeholder="Estación"
@@ -135,11 +132,11 @@ function Formcard() {
               </FormControl>
             </Box>
             <Box border="1px" borderColor="gray.400" borderRadius="md">
-              <FormControl>
+              <FormControl style={{ color: 'black' }}>
                 <Select
                   {...register('tecnico', { required: true })}
                   placeholder="Tecnico"
-                  width="150px">
+                  width="200px">
                   {techOptions.map((option) => (
                     <option key={option._id} value={option.name}>
                       {option.name}
