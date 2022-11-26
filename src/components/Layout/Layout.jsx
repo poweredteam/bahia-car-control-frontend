@@ -1,19 +1,14 @@
-import { Container, Divider, HStack } from '@chakra-ui/react'
+import { Container, HStack } from '@chakra-ui/react'
 
 import SideBar from 'components/SideBar/SideBar'
 
 export default function Layout({ children }) {
   return (
-    <Container
-      h="100vh"
-      alignSelf="flex-start"
-      maxW="container.xl"
-      border="1px">
-      <HStack spacing="4" h="inherit">
+    <Container h="inherit" alignSelf="flex-start" maxW="container.xl">
+      <HStack spacing="4" h="inherit" alignItems= "flex-start">
         <SideBar />
-        <Divider orientation="vertical" />
         <HStack justify={'center'} align={'center'}>
-          {children}
+          { children }
         </HStack>
       </HStack>
     </Container>

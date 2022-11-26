@@ -1,19 +1,31 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme, transition } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
+
+import { accordionTheme } from './accordion'
 
 const theme = extendTheme({
   config: {
     initialColorMode: 'light',
     useSystemColorMode: false
   },
+  fonts: {
+    body: 'Roboto'
+  },
   colors: {
     brand: {
-      pri: '#E17614',
+      primary: '#EB9119',
+      primaryDarkVariant: '#E17614',
+      primaryLightVariant: '#F5C782',
       sec: '#F09135',
       select: '#F88319',
-      greyLigth: '#E2E8F0',
-      dark: '#353C4A',
-      light: '#FFFFF7'
+      complementaryBlue: '#147EE1',
+      analogousRed: '#E11417',
+      analogousYellow: '#E1DE14',
+      triadicGreenLight: '#7EE114',
+      triadicGreenDark: '#14E177',
+      grayLight: '#E2E8F0',
+      dark: '#424242',
+      light: '#ECEFF1'
     }
   },
   styles: {
@@ -27,10 +39,13 @@ const theme = extendTheme({
         display: 'none'
       },
       body: {
-        bg: mode('brand.light', 'brand.dark')(props)
+        bg: mode('brand.dark', 'brand.light')(props),
+        transition: '0.2s',
+        ease: 'linear'
       }
     })
-  }
+  },
+  components: { Accordion: accordionTheme }
 })
 
 export default theme

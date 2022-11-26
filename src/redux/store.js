@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { textSlice, clientSlice } from './slices'
+import { clientSlice, serviceSlice, stationSlice } from './slices'
+import { techSlice } from './slices/tech'
 
 const store = configureStore({
   reducer: {
-    text: textSlice.reducer,
-    clients: clientSlice.reducer
+    clients: clientSlice.reducer,
+    service: serviceSlice.reducer,
+    station: stationSlice.reducer,
+    tech: techSlice.reducer
   }
 })
 
