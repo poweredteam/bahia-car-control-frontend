@@ -2,7 +2,18 @@ import { api } from '../../../services'
 
 export const validateBack = (id, placa) => {
   return async (dispatch) => {
-    const { data } = await api.post('/clientsandlicenses/', { identification: id, license_plate: placa })
+    const { data } = await api.post('/clientsandlicenses/', {
+      identification: id,
+      license_plate: placa
+    })
+    return data
+  }
+}
+
+export const sendService = (info) => {
+  console.log(info.type)
+  return async (dispatch) => {
+    const { data } = await api.post('/services', info) // validar si la data es necesaria retornarla
     return data
   }
 }

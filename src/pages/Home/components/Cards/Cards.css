@@ -1,5 +1,7 @@
 .card-container{
-    background-color: red;
+    /* background-color: red; */
+    max-width: 1041px;
+    min-width: 990px;
     width: 100%;
     height: auto;
     display: flex;

@@ -10,8 +10,11 @@ export const serviceSlice = createSlice({
   reducers: {
     addService: (state, action) => {
       state.service = [...state.service, action.payload]
+    },
+    removeService: (state, action) => {
+      state.service = state.service.filter(s => s.placa !== action.payload)
     }
   }
 })
 
-export const { addService } = serviceSlice.actions
+export const { addService, removeService } = serviceSlice.actions
