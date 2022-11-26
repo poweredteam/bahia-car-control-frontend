@@ -1,19 +1,10 @@
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useStopwatch } from 'react-timer-hook'
-import {
-  Box,
-  Flex,
-  Spacer,
-  Center,
-  Text,
-  Button,
-  Icon,
-  AlertDialog
-} from '@chakra-ui/react'
+import { Box, Flex, Spacer, Center, Text, Button, Icon, AlertDialog } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
-import { sendService, removeService } from '../../../../redux/slices/services'
+import { sendService, removeService, addService } from '../../../../redux/slices/services'
 import swal from 'sweetalert'
 import './Card.css'
 
@@ -50,10 +41,12 @@ ItemHeader.propTypes = {
 function Card({ license, station, date, technician, data }) {
   const dispatch = useDispatch()
   const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch({ autoStart: false })
-  const timer = `${hours}:${minutes}:${seconds}`
-  const [time, setTime] = useState({
-    time: timer
-  })
+  const timer = {
+    hours: hours < 10 ? '0' + hours : hours,
+    minutes: minutes < 10 ? '0' + minutes : minutes,
+    seconds: seconds < 10 ? '0' + seconds : seconds
+  }
+  localStorage.setItem(`${license}`, `${timer.hours}:${timer.minutes}:${timer.seconds}`)
   const generalInfo = {
     type: 'cambio',
     cronometer: timer,
@@ -85,6 +78,7 @@ function Card({ license, station, date, technician, data }) {
             pause()
             dispatch(sendService(generalInfo))
             dispatch(removeService(license))
+            localStorage.removeItem(`${license}`)
             break
           case 'No':
             start()
@@ -98,7 +92,6 @@ function Card({ license, station, date, technician, data }) {
       alert('editar')
     }
   }
-
   return (
     <Box
       bg="white"
@@ -121,9 +114,8 @@ function Card({ license, station, date, technician, data }) {
           fontWeight="medium"
           color="brand.dark"
           name="time"
-          onChange={(e) => setTime({ time: e.time })}
         >
-          {timer}
+          {`${timer.hours}:${timer.minutes}:${timer.seconds}`}
         </Text>
         <Box h="110px" color="white">
           <Button
