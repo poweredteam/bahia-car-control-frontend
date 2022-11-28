@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useStopwatch } from 'react-timer-hook'
-import { Box, Flex, Spacer, Center, Text, Button, Icon, AlertDialog } from '@chakra-ui/react'
+import { Box, Flex, Spacer, Center, Text, Button, Icon, AlertDialog, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
 import { sendService, removeService, addService } from '../../../../redux/slices/services'
 import swal from 'sweetalert'
 import './Card.css'
+import { EditFinish } from '../EditFinish'
 
 function ItemHeader({ text, text2 }) {
   return (
@@ -40,6 +41,8 @@ ItemHeader.propTypes = {
 
 function Card({ license, station, date, technician, data }) {
   const dispatch = useDispatch()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [estado, setEstado] = useState('')
   const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch({ autoStart: false })
   const timer = {
     hours: hours < 10 ? '0' + hours : hours,
@@ -47,50 +50,15 @@ function Card({ license, station, date, technician, data }) {
     seconds: seconds < 10 ? '0' + seconds : seconds
   }
   localStorage.setItem(`${license}`, `${timer.hours}:${timer.minutes}:${timer.seconds}`)
-  const generalInfo = {
-    type: 'cambio',
-    cronometer: timer,
-    datetime: date,
-    workstation: station,
-    technician: technician,
-    kilometers: 'pte',
-    goods: [],
-    vehicle_id: license,
-    driver: 'pte',
-    comments: 'pte'
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log(e.target.name)
+    setEstado(e.target.name)
     if (e.target.name === 'end') {
       pause()
-      swal({
-        title: 'Atención',
-        text: '¿Desear finalizar el Servicio?',
-        icon: 'warning',
-        buttons: {
-          Si: true,
-          No: true
-        }
-      }).then((value) => {
-        switch (value) {
-          case 'Si':
-            pause()
-            dispatch(sendService(generalInfo))
-            dispatch(removeService(license))
-            localStorage.removeItem(`${license}`)
-            break
-          case 'No':
-            start()
-            break
-          default:
-            break
-        }
-      })
     }
-    if (e.target.name === 'edit') {
-      alert('editar')
-    }
+    onOpen()
   }
   return (
     <Box
@@ -163,6 +131,20 @@ function Card({ license, station, date, technician, data }) {
           </Button>
         </Flex>
       </Flex>
+      <Modal isOpen={isOpen} onClose={onClose} width='fit-content' >
+          <ModalOverlay />
+          <ModalContent maxWidth={'none'} width={'fit-content'}>
+            <EditFinish
+              onClose={onClose}
+              date={date}
+              estado={estado === 'end' ? 'Finalizar' : 'Editar'}
+              data={data}
+              license={license}
+              station={station}
+              technician={technician}
+              timer={timer}/>
+          </ModalContent>
+        </Modal>
     </Box>
   )
 }
