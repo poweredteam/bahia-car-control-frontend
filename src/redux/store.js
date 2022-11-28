@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { clientSlice, serviceSlice, stationSlice } from './slices'
+import { clientSlice, serviceSlice, stationSlice, productSlice } from './slices'
 import { techSlice } from './slices/tech'
 
 const store = configureStore({
@@ -7,7 +7,8 @@ const store = configureStore({
     clients: clientSlice.reducer,
     service: serviceSlice.reducer,
     station: stationSlice.reducer,
-    tech: techSlice.reducer
+    tech: techSlice.reducer,
+    products: productSlice.reducer
   }
 })
 
