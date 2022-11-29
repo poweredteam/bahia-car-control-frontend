@@ -1,16 +1,18 @@
-import { Container, HStack } from '@chakra-ui/react'
+import { Grid, GridItem, Stack } from '@chakra-ui/react'
 
 import SideBar from 'components/SideBar/SideBar'
 
 export default function Layout({ children }) {
   return (
-    <Container h="inherit" alignSelf="flex-start" maxW="container.xl">
-      <HStack spacing="4" h="inherit" alignItems= "flex-start">
-        <SideBar />
-        <HStack justify={'center'} align={'center'}>
-          { children }
-        </HStack>
-      </HStack>
-    </Container>
+    <Grid templateColumns="repeat(2, 1fr)">
+      <GridItem h="100vh" w="100%">
+        <Stack h="inherit" w="inherit">
+          <SideBar />
+        </Stack>
+      </GridItem>
+      <GridItem h="100vh" w="100%">
+        <Stack>{children}</Stack>
+      </GridItem>
+    </Grid>
   )
 }
