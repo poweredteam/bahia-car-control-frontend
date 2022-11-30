@@ -1,7 +1,7 @@
 import { Route } from 'wouter'
 
 import { Layout } from 'components'
-import { SECTIONS } from 'utilities/constans'
+import { SECTIONS } from 'utilities/routes'
 
 function App() {
   return (

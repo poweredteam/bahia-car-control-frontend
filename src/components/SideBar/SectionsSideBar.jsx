@@ -14,7 +14,8 @@ import {
 import { motion } from 'framer-motion'
 import { Link as ReachLink, useLocation } from 'wouter'
 
-import { adminPages, filteredSections, PA } from '../../utilities/constans'
+import { filteredSections, PA } from '../../utilities/constans'
+import { adminPages } from '../../utilities/routes'
 import AdminPage from './AdminPage'
 
 export default function SectionSideBar({ d }) {
