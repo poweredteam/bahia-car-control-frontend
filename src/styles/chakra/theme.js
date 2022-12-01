@@ -1,4 +1,4 @@
-import { extendTheme, transition } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools'
 
 import { accordionTheme } from './accordion'
@@ -38,10 +38,11 @@ const theme = extendTheme({
       '*::-webkit-scrollbar': {
         display: 'none'
       },
+      '*': {
+        '-webkit-tap-highlight-color': 'transparent'
+      },
       body: {
-        bg: mode('brand.dark', 'brand.light')(props),
-        transition: '0.2s',
-        ease: 'linear'
+        bg: mode('brand.dark', 'brand.light')(props)
       }
     })
   },

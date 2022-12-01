@@ -1,25 +1,40 @@
-import { FaBug } from 'react-icons/fa'
-import { VStack, useBoolean, IconButton } from '@chakra-ui/react'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
+import { VStack, useBoolean, Button, Box } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 
 import Sections from './SectionsSideBar'
 import Logo from './Logo'
 import PanelSideBar from './PanelSIdeBar'
-import { motion } from 'framer-motion'
 
 export default function SideBar() {
   const [flag, setFlag] = useBoolean()
+  const toggleMenu = {
+    open: { width: '19rem' },
+    closed: { width: '4rem' }
+  }
 
   return (
     <>
       <VStack
         as={motion.div}
         spacing="6"
-        w={flag ? '19rem' : '3rem'}
         h="inherit"
+        py="2rem"
         bg="brand.sec"
-        fontSize="2xl"
-        transition="0.2s linear">
-        <IconButton icon={<FaBug />} onClick={setFlag.toggle} />
+        fontSize="lg"
+        animate={flag ? 'open' : 'closed'}
+        variants={toggleMenu}
+      >
+        <Box w="full" h="3.5rem" position="relative">
+          <Button
+            onClick={setFlag.toggle}
+            position="absolute"
+            variant="unstyled"
+            right="0"
+          >
+            {flag ? <FaArrowLeft /> : <FaArrowRight />}
+          </Button>
+        </Box>
         <Logo d={flag} />
         <Sections d={flag} />
         <PanelSideBar d={flag} />
