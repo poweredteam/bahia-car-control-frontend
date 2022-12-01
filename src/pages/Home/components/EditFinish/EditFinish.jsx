@@ -8,28 +8,37 @@ import { sendService, removeService, updateService } from '../../../../redux/sli
 import swal from 'sweetalert'
 
 function EditFinish({ estado, timer, onClose, license }) {
+  // REVISAR LICENSE LLEGA CON VALOR UNDEFINED 
   const dispatch = useDispatch()
   const productos = useSelector(state => state.products.products)
   const serviceRedux = useSelector(state => state.service.service)
   const stationsRedux = useSelector(state => state.station.station)
   const techRedux = useSelector(state => state.tech.tech)
-  const serviceFound = serviceRedux.filter(s => s.placa === license)
-
+  // LICENSE --->UNDEFINED
+  function searchService (value){
+    console.log('VALUE', value)
+    console.log('VALUE ID', value.vehicle_id)
+    console.log('LICENSE', license) // UNDEFINED
+    return value.vehicle_id === license
+  }
+  const serviceFound = serviceRedux.filter(searchService)
+  // const serviceFound = serviceRedux.filter(s => s.vehicle_id === license)
+  console.log('SERVICE', serviceFound)
   // traer de redux el servicio (pasar por props: estado, timer, onClose, license)
   const servicio = {
     clienteName: `${serviceFound[0].data.name} ${serviceFound[0].data.lastName}`,
-    placa: serviceFound[0].placa,
-    tecnico: serviceFound[0].tecnico,
-    estacion: serviceFound[0].estacion,
-    fecha: serviceFound[0].fecha
+    placa: serviceFound[0].vehicle_id,
+    tecnico: serviceFound[0].technician,
+    estacion: serviceFound[0].workstation,
+    fecha: serviceFound[0].datetime
   }
 
   const generalInfo = {
     type: 'cambio',
     timer: timer,
-    datetime: serviceFound[0].fecha,
-    workstation: serviceFound[0].estacion,
-    technician: serviceFound[0].tecnico,
+    datetime: serviceFound[0].datetime,
+    workstation: serviceFound[0].workstation,
+    technician: serviceFound[0].technician,
     kilometers: '',
     goods: [],
     vehicle_id: license,
@@ -39,10 +48,10 @@ function EditFinish({ estado, timer, onClose, license }) {
 
   const [inputs, setInputs] = useState({
     driver: '',
-    kilometraje: '',
-    productos: [],
-    servicio: '',
-    observaciones: ''
+    kilometers: '',
+    products: [],
+    service: '',
+    observations: ''
   })
 
   useEffect(() => {
@@ -53,16 +62,16 @@ function EditFinish({ estado, timer, onClose, license }) {
     e.preventDefault()
     setInputs({
       ...inputs,
-      productos: inputs.productos.filter(type => type !== e.target.name)
+      products: inputs.products.filter(type => type !== e.target.name)
     })
   }
 
   function handleSelect(e) {
-    const findProd = inputs.productos.find(t => t === e.target.value)
+    const findProd = inputs.products.find(t => t === e.target.value)
     if (e.target.name === 'select-producto') {
       setInputs({
         ...inputs,
-        productos: findProd ? [...inputs.productos] : [...inputs.productos, e.target.value]
+        products: findProd ? [...inputs.products] : [...inputs.products, e.target.value]
       })
     } else {
       setInputs({
@@ -120,7 +129,7 @@ function EditFinish({ estado, timer, onClose, license }) {
             </div>
             <div className='edit-form-input'>
               <Text>Kilometraje:</Text>
-              <Input width='70%' backgroundColor={'#fff'} placeholder={inputs.kilometraje || '110.000'} className='edit-form-inputs-left-conductor-input' name='kilometraje' value={inputs.kilometraje} onChange={(e) => handleSelect(e)} />
+              <Input width='70%' backgroundColor={'#fff'} placeholder={inputs.kilometers || '110.000'} className='edit-form-inputs-left-conductor-input' name='kilometraje' value={inputs.kilometers} onChange={(e) => handleSelect(e)} />
             </div>
             <div className='edit-form-productos-container'>
               <div className='edit-form-productos'>
@@ -133,7 +142,7 @@ function EditFinish({ estado, timer, onClose, license }) {
                 </Select>
               </div>
               <div className='edit-form-selected-products'>
-                {inputs.productos?.map((prod, i) => <button className='edit-form-selected-product' key={i} name={prod} onClick={(e) => handleDeleteProduct(e)}>{prod}</button>)}
+                {inputs.products?.map((prod, i) => <button className='edit-form-selected-product' key={i} name={prod} onClick={(e) => handleDeleteProduct(e)}>{prod}</button>)}
               </div>
             </div>
           </div>
@@ -171,7 +180,7 @@ function EditFinish({ estado, timer, onClose, license }) {
             </div>
             <div className='edit-form-input-observaciones'>
               <Text>Observaciones:</Text>
-              <Textarea placeholder='Agrega una aclaracion' backgroundColor={'#fff'} name='observaciones' value={inputs.observaciones} onChange={(e) => handleSelect(e)} />
+              <Textarea placeholder='Agrega una aclaracion' backgroundColor={'#fff'} name='observaciones' value={inputs.observations} onChange={(e) => handleSelect(e)} />
             </div>
             <div className='edit-form-input-buttons'>
               <Button marginRight={'15px'} onClick={onClose}>Cancelar</Button>
