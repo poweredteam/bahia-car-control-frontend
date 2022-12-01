@@ -1,19 +1,25 @@
 import { HStack, Center, Icon, Heading } from '@chakra-ui/react'
-import { FaCar } from 'react-icons/fa'
+import { GiKiwiBird } from 'react-icons/gi'
 
 export default function Logo({ d }) {
   return (
-    <HStack h="20%" w="full" alignItems="center" justifyContent="center" display='inline-flex'>
+    <HStack
+      h="10%"
+      w="full"
+      alignItems="center"
+      justifyContent="center"
+      display="inline-flex"
+    >
       {d ? (
         <>
           <Center>
-            <Icon as={FaCar} boxSize="35px" />
+            <Icon as={GiKiwiBird} boxSize="35px" />
           </Center>
-          <Heading>Car Bahia</Heading>
+          <Heading>Kiwi</Heading>
         </>
       ) : (
         <Center>
-          <Icon as={FaCar} boxSize="25px" />
+          <Icon as={GiKiwiBird} boxSize="35px" />
         </Center>
       )}
     </HStack>

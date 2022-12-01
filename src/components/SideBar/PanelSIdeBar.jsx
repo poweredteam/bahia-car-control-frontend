@@ -2,62 +2,70 @@ import {
   Button,
   Icon,
   Avatar,
+  VStack,
   HStack,
+  Badge,
   Text,
-  Stack,
   useColorMode,
-  useColorModeValue,
-  Circle,
-  Center
+  useColorModeValue
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { FaUser, FaMoon, FaSun } from 'react-icons/fa'
 
 export default function PanelSideBar({ d }) {
   const { toggleColorMode } = useColorMode()
-  const primaryVariantToggle = useColorModeValue(
-    'brand.primaryDarkVariant',
-    'brand.primaryLightVariant'
-  )
   const darkLightToggle = useColorModeValue('brand.dark', 'brand.light')
-  const icon = useColorModeValue(FaMoon, FaSun)
-  const toggleShadow = useColorModeValue('inner', '2xl')
+  const lightDarkToggle = useColorModeValue('brand.light', 'brand.dark')
+  const icon = useColorModeValue(FaSun, FaMoon)
+  const toggleText = {
+    open: { x: 0, opacity: 1 },
+    closed: { display: 'none', x: 5, opacity: 0 }
+  }
   return (
-    <Stack
+    <VStack
       as={motion.div}
-      direction={d ? 'row' : 'column'}
-      h={d ? '10%' : '25%'}
-      p="4"
-      w="inherit"
-      spacing="2"
-      alignItems="center"
+      spacing="8"
+      h="20%"
+      w="full"
+      alignItems="flex-start"
       justifyContent="space-around"
-      boxShadow="base"
-      transition=".2s linear"
-      delay="1">
-      <HStack display="inline-flex">
+    >
+      <HStack justifyContent="space-evenly" w="full">
+        <Button
+          onClick={toggleColorMode}
+          variant="unstyled"
+          rounded="full"
+          boxSize="25px"
+        >
+          <Icon as={icon} boxSize="35px" color={lightDarkToggle} />
+        </Button>
+      </HStack>
+      <HStack justifyContent="space-evenly" maxW="80%" alignSelf="center">
         <Avatar
           icon={<FaUser />}
-          bg={primaryVariantToggle}
-          boxShadow={toggleShadow}
+          bg={darkLightToggle}
+          color={lightDarkToggle}
         />
-        {d ? (
-          <Text color={darkLightToggle} fontSize="1rem">
-            user name
+        <VStack
+          as={motion.div}
+          animate={d ? 'open' : 'closed'}
+          variants={toggleText}
+          spacing="-1.8"
+          color={darkLightToggle}
+          alignItems="flex-end"
+        >
+          <Text>name lastname</Text>
+          <Text fontSize="sm">
+            <Badge
+              bg="brand.analogousYellow"
+              rounded="full"
+              color="brand.dark"
+            >
+              ADMIN
+            </Badge>
           </Text>
-        ) : null}
+        </VStack>
       </HStack>
-      <Button
-        onClick={toggleColorMode}
-        variant="unstyled"
-        rounded="full"
-        boxSize="50px">
-        <Center>
-          <Circle boxShadow="inner" boxSize="3rem">
-            <Icon as={icon} boxSize="40px" color={primaryVariantToggle} />
-          </Circle>
-        </Center>
-      </Button>
-    </Stack>
+    </VStack>
   )
 }

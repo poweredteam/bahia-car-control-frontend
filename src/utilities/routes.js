@@ -1,9 +1,8 @@
 import { AiFillHome, AiOutlineHome } from 'react-icons/ai'
-import { BsFileBarGraph, BsFileBarGraphFill } from 'react-icons/bs'
+// import { BsFileBarGraph, BsFileBarGraphFill } from 'react-icons/bs'
 import { RiShieldUserFill, RiShieldUserLine } from 'react-icons/ri'
 
 import { Home } from 'pages'
-import { Card } from 'pages/Home/components'
 
 export const SECTIONS = [
   {
@@ -18,14 +17,14 @@ export const SECTIONS = [
     path: '/admin',
     activeIcon: RiShieldUserFill,
     inactiveIcon: RiShieldUserLine
-  },
-  {
+  }
+  /*   {
     title: 'INFORMES',
     path: '/info',
     activeIcon: BsFileBarGraphFill,
     inactiveIcon: BsFileBarGraph,
     component: Card
-  }
+  } */
 ]
 
 export const adminPages = [

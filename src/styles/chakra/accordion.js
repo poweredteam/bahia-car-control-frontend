@@ -13,8 +13,9 @@ const baseStyle = definePartsStyle({
   },
   button: {
     w: '100%',
+    h: '3rem',
     _hover: { bg: 'none' },
-    fontSize: '2xl'
+    fontSize: 'lg'
   },
   panel: {
     p: 0,
