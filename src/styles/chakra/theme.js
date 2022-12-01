@@ -39,7 +39,7 @@ const theme = extendTheme({
         display: 'none'
       },
       '*': {
-        '-webkit-tap-highlight-color': 'transparent'
+        WebkitTapHighlightColor: 'transparent'
       },
       body: {
         bg: mode('brand.dark', 'brand.light')(props)
