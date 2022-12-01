@@ -41,36 +41,47 @@ function Formcard() {
     toast.error('No se pueden crear dos servicios con la misma placa', {
       autoClose: 3000
     })
+  // Date & time
   const currentDate = new Date().toLocaleDateString()
+  const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  // Create service
   const serviceSubmit = (service) => {
-    const { dni, placa, estacion, tecnico } = service
+    const { clientId, vehicle_id, workstation, technician } = service
     service = {
-      dni,
-      placa: placa.toUpperCase(),
-      estacion,
-      tecnico
+      clientId,
+      vehicle_id: vehicle_id.toUpperCase(),
+      workstation,
+      technician
     }
-    dispatch(validateBack(dni, placa)).then((res) => {
+    dispatch(validateBack(clientId, vehicle_id)).then((res) => {
       if (res.client === false && res.licence === false && res.isRelated === false) {
         alert('cliente y placa no existe, por favor crealos y relacionalos')
       }
       if (res.client === true && res.licence === false && res.isRelated === false) {
         alert('cliente  existe pero la placa no existe, por favor crea la placa y relacionala al cliente')
-        console.log(res.data)
       }
       if (res.client === false && res.licence === true && res.isRelated === false) {
         alert('cliente no esta creado, pero la placa existe, por favor crea al cliente y relaciona la placa')
       }
       if (res.client === true && res.licence === true && res.isRelated === false) {
         alert('cliente y placa existe, por favor relaciona la placa al cliente')
-        console.log(res.data)
       }
       if (res.client === true && res.licence === true && res.isRelated === true) {
-        const placaFound = serviceRedux.filter((s) => s.placa === service.placa)
+        const placaFound = serviceRedux.filter((s) => s.vehicle_id === service.vehicle_id)
         if (placaFound.length > 0) {
           return notifyPlacaError()
         } else {
-          dispatch(addService({ ...service, data: res.data, fecha: currentDate }))
+          dispatch(addService({
+            ...service,
+            data: res.data,
+            type: '',
+            timer: null,
+            datetime: `${currentDate} ${currentTime}`,
+            kilometers: '',
+            goods: [],
+            driver: '',
+            comments: ''
+          }))
           reset()
           notify()
         }
@@ -86,7 +97,7 @@ function Formcard() {
               <FormControl isRequired>
                 <Input
                   type="text"
-                  {...register('dni', { required: true, maxLength: 10 })}
+                  {...register('clientId', { required: true, maxLength: 10 })}
                   placeholder="DNI Cliente"
                   width="200px"
                 />
@@ -102,7 +113,7 @@ function Formcard() {
               <FormControl isRequired>
                 <Input
                   type="text"
-                  {...register('placa', { required: true, maxLength: 7 })}
+                  {...register('vehicle_id', { required: true, maxLength: 7 })}
                   placeholder="Placa"
                   width="150px"
                 />
@@ -117,7 +128,7 @@ function Formcard() {
             <Box border="1px" borderColor="gray.400" borderRadius="md">
               <FormControl style={{ color: 'black' }}>
                 <Select
-                  {...register('estacion', { required: true })}
+                  {...register('workstation', { required: true })}
                   placeholder="Estación"
                   width="150px">
                   {stationOptions.map((opt) => (
@@ -134,7 +145,7 @@ function Formcard() {
             <Box border="1px" borderColor="gray.400" borderRadius="md">
               <FormControl style={{ color: 'black' }}>
                 <Select
-                  {...register('tecnico', { required: true })}
+                  {...register('technician', { required: true })}
                   placeholder="Tecnico"
                   width="200px">
                   {techOptions.map((option) => (
