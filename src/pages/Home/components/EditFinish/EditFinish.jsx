@@ -7,52 +7,43 @@ import { getProduct } from '../../../../redux/slices'
 import { sendService, removeService, updateService } from '../../../../redux/slices/services'
 import swal from 'sweetalert'
 
-function EditFinish({ estado, timer, onClose, license }) {
-  // REVISAR LICENSE LLEGA CON VALOR UNDEFINED 
+function EditFinish({ estado, timer, onClose, vehicle_id }) {
   const dispatch = useDispatch()
   const productos = useSelector(state => state.products.products)
   const serviceRedux = useSelector(state => state.service.service)
   const stationsRedux = useSelector(state => state.station.station)
   const techRedux = useSelector(state => state.tech.tech)
-  // LICENSE --->UNDEFINED
-  function searchService (value){
-    console.log('VALUE', value)
-    console.log('VALUE ID', value.vehicle_id)
-    console.log('LICENSE', license) // UNDEFINED
-    return value.vehicle_id === license
-  }
-  const serviceFound = serviceRedux.filter(searchService)
-  // const serviceFound = serviceRedux.filter(s => s.vehicle_id === license)
-  console.log('SERVICE', serviceFound)
-  // traer de redux el servicio (pasar por props: estado, timer, onClose, license)
-  const servicio = {
-    clienteName: `${serviceFound[0].data.name} ${serviceFound[0].data.lastName}`,
-    placa: serviceFound[0].vehicle_id,
-    tecnico: serviceFound[0].technician,
-    estacion: serviceFound[0].workstation,
-    fecha: serviceFound[0].datetime
-  }
 
-  const generalInfo = {
-    type: 'cambio',
-    timer: timer,
-    datetime: serviceFound[0].datetime,
-    workstation: serviceFound[0].workstation,
-    technician: serviceFound[0].technician,
-    kilometers: '',
-    goods: [],
-    vehicle_id: license,
-    driver: '',
-    comments: ''
-  }
+  const serviceFound = serviceRedux.filter(s => s.vehicle_id === vehicle_id)
 
+
+  
   const [inputs, setInputs] = useState({
-    driver: '',
-    kilometers: '',
-    products: [],
-    service: '',
-    observations: ''
+    data : serviceFound[0].data,
+    timer: `${timer.hours}:${timer.minutes}:${timer.seconds}`,
+    datetime: serviceFound[0].datetime,
+    workstation: serviceFound[0].workstation ? serviceFound[0].workstation : '',
+    driver: serviceFound[0].driver,
+    kilometers: serviceFound[0].kilometers ? serviceFound[0].kilometers : '',
+    technician: serviceFound[0].technician ? serviceFound[0].technician : '',
+    vehicle_id: vehicle_id,
+    goods: [],
+    services: serviceFound[0].services ? serviceFound[0].services : '',
+    comments: serviceFound[0].comments ? serviceFound[0].comments : ''
   })
+  
+  const generalInfo = {
+    type: inputs.services,
+    cronometer: inputs.timer,
+    datetime: inputs.datetime,
+    workstation: inputs.workstation,
+    technician: inputs.technician,
+    kilometers: inputs.kilometers,
+    goods: inputs.goods,
+    vehicle_id: vehicle_id,
+    driver: inputs.driver,
+    comments: inputs.comments,
+  }
 
   useEffect(() => {
     dispatch(getProduct())
@@ -62,16 +53,16 @@ function EditFinish({ estado, timer, onClose, license }) {
     e.preventDefault()
     setInputs({
       ...inputs,
-      products: inputs.products.filter(type => type !== e.target.name)
+      goods: inputs.goods.filter(type => type !== e.target.name)
     })
   }
 
   function handleSelect(e) {
-    const findProd = inputs.products.find(t => t === e.target.value)
+    const findProd = inputs.goods.find(t => t === e.target.value)
     if (e.target.name === 'select-producto') {
       setInputs({
         ...inputs,
-        products: findProd ? [...inputs.products] : [...inputs.products, e.target.value]
+        goods: findProd ? [...inputs.goods] : [...inputs.goods, e.target.value]
       })
     } else {
       setInputs({
@@ -94,9 +85,9 @@ function EditFinish({ estado, timer, onClose, license }) {
       }).then((value) => {
         switch (value) {
           case 'Si':
-            // dispatch(sendService(generalInfo))
-            // dispatch(removeService(license))
-            // localStorage.removeItem(`${license}`)
+            dispatch(sendService(generalInfo))
+            // dispatch(removeService(vehicle_id))
+            localStorage.removeItem(`${vehicle_id}`)
             break
           case 'No':
             break
@@ -106,6 +97,7 @@ function EditFinish({ estado, timer, onClose, license }) {
       })
     } else {
       dispatch(updateService(inputs))
+      // alert('guard')
     }
   }
 
@@ -117,9 +109,9 @@ function EditFinish({ estado, timer, onClose, license }) {
       </div>
       <div className='edit-form-container'>
         <div className='edit-form-text'>
-          <Text>Cliente: <b>{servicio.clienteName}</b></Text>
-          <Text>Placa: <b>{servicio.placa}</b></Text>
-          <Text>Fecha de ingreso: <b>{servicio.fecha}</b></Text>
+          <Text>Cliente: <b>{inputs.data.name}</b></Text>
+          <Text>Placa: <b>{vehicle_id}</b></Text>
+          <Text>Fecha de ingreso: <b>{inputs.datetime}</b></Text>
         </div>
         <div className='edit-form-inputs'>
           <div className='edit-form-inputs-left'>
@@ -129,7 +121,7 @@ function EditFinish({ estado, timer, onClose, license }) {
             </div>
             <div className='edit-form-input'>
               <Text>Kilometraje:</Text>
-              <Input width='70%' backgroundColor={'#fff'} placeholder={inputs.kilometers || '110.000'} className='edit-form-inputs-left-conductor-input' name='kilometraje' value={inputs.kilometers} onChange={(e) => handleSelect(e)} />
+              <Input width='70%' backgroundColor={'#fff'} placeholder={inputs.kilometers || '110.000'} className='edit-form-inputs-left-conductor-input' name='kilometers' value={inputs.kilometers} onChange={(e) => handleSelect(e)} />
             </div>
             <div className='edit-form-productos-container'>
               <div className='edit-form-productos'>
@@ -150,7 +142,8 @@ function EditFinish({ estado, timer, onClose, license }) {
           <div className='edit-form-inputs-right'>
             <div className='edit-form-input'>
               <Text>Servicio:</Text>
-              <Select onChange={(e) => handleSelect(e)} width='50%' backgroundColor={'#fff'} className='edit-form-inputs-left-conductor-input' name='servicio'>
+              <Select onChange={(e) => handleSelect(e)} width='50%' backgroundColor={'#fff'} className='edit-form-inputs-left-conductor-input' name='services'>
+                <option value="" disabled selected hidden>{inputs.services}</option>
                 <option value='Servicio 1'>Servicio 1</option>
                 <option value='Servicio 2'>Servicio 2</option>
                 <option value='Servicio 3'>Servicio 3</option>
@@ -158,7 +151,8 @@ function EditFinish({ estado, timer, onClose, license }) {
             </div>
             <div className='edit-form-input'>
               <Text>Estación:</Text>
-              <Select onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='estacion'>
+              <Select onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='workstation'>
+              <option value="" disabled selected hidden>{inputs.workstation}</option>
                 {
                   stationsRedux.map(opt => (
                     <option key={opt._id} value={opt.workStation}>
@@ -170,7 +164,8 @@ function EditFinish({ estado, timer, onClose, license }) {
             </div>
             <div className='edit-form-input'>
               <Text>Técnico:</Text>
-              <Select onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='tecnico'>
+              <Select onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='technician'>
+              <option value="" disabled selected hidden>{inputs.technician}</option>
                 {
                   techRedux.map(tech => (
                     <option key={tech._id} value={tech.name}>{tech.name}</option>
@@ -180,7 +175,7 @@ function EditFinish({ estado, timer, onClose, license }) {
             </div>
             <div className='edit-form-input-observaciones'>
               <Text>Observaciones:</Text>
-              <Textarea placeholder='Agrega una aclaracion' backgroundColor={'#fff'} name='observaciones' value={inputs.observations} onChange={(e) => handleSelect(e)} />
+              <Textarea placeholder='Agrega una aclaracion' backgroundColor={'#fff'} name='comments' value={inputs.comments} onChange={(e) => handleSelect(e)} />
             </div>
             <div className='edit-form-input-buttons'>
               <Button marginRight={'15px'} onClick={onClose}>Cancelar</Button>
