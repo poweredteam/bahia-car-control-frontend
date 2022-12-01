@@ -56,14 +56,12 @@ function Formcard() {
       }
       if (res.client === true && res.licence === false && res.isRelated === false) {
         alert('cliente  existe pero la placa no existe, por favor crea la placa y relacionala al cliente')
-        console.log(res.data)
       }
       if (res.client === false && res.licence === true && res.isRelated === false) {
         alert('cliente no esta creado, pero la placa existe, por favor crea al cliente y relaciona la placa')
       }
       if (res.client === true && res.licence === true && res.isRelated === false) {
         alert('cliente y placa existe, por favor relaciona la placa al cliente')
-        console.log(res.data)
       }
       if (res.client === true && res.licence === true && res.isRelated === true) {
         const placaFound = serviceRedux.filter((s) => s.placa === service.placa)
