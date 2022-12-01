@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useSelector } from 'react-redux'
 import { Card } from './index'
 import './Cards.css'
@@ -9,11 +10,11 @@ function Cards() {
       {services &&
         services.map((service) => (
           <Card
-            key={service.placa}
-            license={service.placa}
-            station={service.estacion}
-            date={service.fecha}
-            technician={service.tecnico}
+            key={service.vehicle_id}
+            vehicle_id={service.vehicle_id}
+            workstation={service.workstation}
+            datetime={service.datetime}
+            technician={service.technician}
             data={service.data}
           />
         ))}

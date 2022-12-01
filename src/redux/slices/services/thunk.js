@@ -11,7 +11,7 @@ export const validateBack = (id, placa) => {
 }
 
 export const sendService = (info) => {
-  console.log(info.type)
+  console.log(info)
   return async (dispatch) => {
     const { data } = await api.post('/services', info) // validar si la data es necesaria retornarla
     return data

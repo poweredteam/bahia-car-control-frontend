@@ -11,24 +11,11 @@ import { EditFinish } from '../EditFinish'
 
 function ItemHeader({ text, text2 }) {
   return (
-    <Flex
-      flex={4}
-      direction="column"
-      textAlign="center"
-      justify="center"
-      align="center"
-    >
+    <Flex flex={4} direction="column" textAlign="center" justify="center" align="center">
       <Text fontSize="14px" fontWeight="medium" color="brand.dark" width="78px">
         {text}
       </Text>
-      <Text
-        bg="white"
-        borderRadius="5px"
-        fontSize="16px"
-        fontWeight="semibold"
-        color="brand.dark"
-        width="78px"
-      >
+      <Text bg="white" borderRadius="5px" fontSize="16px" fontWeight="semibold" color="brand.dark" width="78px">
         {text2}
       </Text>
     </Flex>
@@ -39,7 +26,7 @@ ItemHeader.propTypes = {
   text2: PropTypes.string.isRequired
 }
 
-function Card({ license, station, date, technician, data }) {
+function Card({ vehicle_id, workstation }) {
   const dispatch = useDispatch()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [estado, setEstado] = useState('')
@@ -49,7 +36,7 @@ function Card({ license, station, date, technician, data }) {
     minutes: minutes < 10 ? '0' + minutes : minutes,
     seconds: seconds < 10 ? '0' + seconds : seconds
   }
-  localStorage.setItem(`${license}`, `${timer.hours}:${timer.minutes}:${timer.seconds}`)
+  localStorage.setItem(`${vehicle_id}`, `${timer.hours}:${timer.minutes}:${timer.seconds}`)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -73,8 +60,8 @@ function Card({ license, station, date, technician, data }) {
       margin="10px 15px 10px 15px"
     >
       <Flex bg="brand.greyLight" width="100%" align="center" height="63px">
-        <ItemHeader text="PLACA" text2={license} />
-        <ItemHeader text="ESTACION" text2={station} />
+        <ItemHeader text="PLACA" text2={vehicle_id} />
+        <ItemHeader text="ESTACION" text2={workstation} />
       </Flex>
       <Flex direction="column" justify="center" align="center">
         <Text
@@ -136,12 +123,8 @@ function Card({ license, station, date, technician, data }) {
           <ModalContent maxWidth={'none'} width={'fit-content'}>
             <EditFinish
               onClose={onClose}
-              date={date}
               estado={estado === 'end' ? 'Finalizar' : 'Editar'}
-              data={data}
-              license={license}
-              station={station}
-              technician={technician}
+              vehicle_id={vehicle_id}
               timer={timer}/>
           </ModalContent>
         </Modal>
