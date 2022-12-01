@@ -14,7 +14,7 @@ import {
 import { motion } from 'framer-motion'
 import { Link as ReachLink, useLocation } from 'wouter'
 
-import { filteredSections, PA } from '../../utilities/constans'
+import { filteredPip, filteredSections, PA } from '../../utilities/constans'
 import { adminPages, SECTIONS } from '../../utilities/routes'
 import AdminPage from './AdminPage'
 
@@ -98,7 +98,7 @@ export default function SectionSideBar({ d }) {
     </VStack>
   ) : (
     <VStack as={motion.div} spacing="0" w="full" h="60%">
-      {SECTIONS.map(({ path, activeIcon, inactiveIcon }) => {
+      {filteredPip.map(({ path, activeIcon, inactiveIcon }) => {
         return (
           <Center
             key={path}

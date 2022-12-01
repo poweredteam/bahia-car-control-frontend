@@ -3,6 +3,7 @@ import { AiFillHome, AiOutlineHome } from 'react-icons/ai'
 import { RiShieldUserFill, RiShieldUserLine } from 'react-icons/ri'
 
 import { Home } from 'pages'
+import InProgressPage from '../components/inProgressPage'
 
 export const SECTIONS = [
   {
@@ -17,31 +18,29 @@ export const SECTIONS = [
     path: '/admin',
     activeIcon: RiShieldUserFill,
     inactiveIcon: RiShieldUserLine
+  },
+  {
+    title: 'PP',
+    path: '/pip',
+    component: InProgressPage
   }
-  /*   {
-    title: 'INFORMES',
-    path: '/info',
-    activeIcon: BsFileBarGraphFill,
-    inactiveIcon: BsFileBarGraph,
-    component: Card
-  } */
 ]
 
 export const adminPages = [
   {
     title: 'Estaciones',
-    href: '/stat'
+    href: '/pip'
   },
   {
     title: 'Técnicos',
-    href: '/tecn'
+    href: '/pip'
   },
   {
     title: 'Productos',
-    href: '/prod'
+    href: '/pip'
   },
   {
     title: 'Servicios',
-    href: '/serv'
+    href: '/pip'
   }
 ]

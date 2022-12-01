@@ -6,12 +6,13 @@ import Sections from './SectionsSideBar'
 import Logo from './Logo'
 import PanelSideBar from './PanelSIdeBar'
 
-export default function SideBar() {
+export default function SideBar({ parentD }) {
   const [flag, setFlag] = useBoolean()
   const toggleMenu = {
     open: { width: '19rem' },
     closed: { width: '4rem' }
   }
+  parentD(flag)
 
   return (
     <>
