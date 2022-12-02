@@ -89,7 +89,7 @@ function Formcard() {
     })
   }
   return (
-    <Box p={5} bg="gray.100" mt="5" h='80px' w='1041px' shadow='md' borderWidth='1px' borderRadius="md">
+    <Box p={5} bg="gray.100" mt="5" h='90px' w='1041px' shadow='md' borderWidth='1px' borderRadius="md">
       <form onSubmit={handleSubmit(serviceSubmit)}>
         <Flex align="center" justify="center">
           <HStack spacing="24px">
@@ -102,10 +102,10 @@ function Formcard() {
                   width="200px"
                 />
               </FormControl>
-              {errors.dni?.type === 'required' && (
+              {errors.clientId?.type === 'required' && (
                 <small className="fail">DNI vacío</small>
               )}
-              {errors.dni?.type === 'maxLength' && (
+              {errors.clientId?.type === 'maxLength' && (
                 <small className="fail">DNI invalido</small>
               )}
             </Box>
@@ -118,10 +118,10 @@ function Formcard() {
                   width="150px"
                 />
               </FormControl>
-              {errors.placa?.type === 'required' && (
+              {errors.vehicle_id?.type === 'required' && (
                 <small className="fail">Placa vacía</small>
               )}
-              {errors.placa?.type === 'maxLength' && (
+              {errors.vehicle_id?.type === 'maxLength' && (
                 <small className="fail">Placa invalida</small>
               )}
             </Box>
@@ -137,7 +137,7 @@ function Formcard() {
                     </option>
                   ))}
                 </Select>
-                {errors.station && (
+                {errors.workstation?.type === 'required' && (
                   <small className="fail">Selecciona una estación</small>
                 )}
               </FormControl>
@@ -154,7 +154,7 @@ function Formcard() {
                     </option>
                   ))}
                 </Select>
-                {errors.tecnico && (
+                {errors.technician?.type === 'required' && (
                   <small className="fail">Selecciona un tecnico</small>
                 )}
               </FormControl>

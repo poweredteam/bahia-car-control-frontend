@@ -126,7 +126,7 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
             <div className='edit-form-productos-container'>
               <div className='edit-form-productos'>
                 <Text>Productos:</Text>
-                <Select onChange={(e) => handleSelect(e)} name='select-producto' className='edit-form-inputs-left-conductor-input' width='50%'>
+                <Select defaultValue={'Productos'} onChange={(e) => handleSelect(e)} name='select-producto' className='edit-form-inputs-left-conductor-input' width='50%'>
                   <option value="" disabled hidden>Productos</option>
                   {productos.map((e) => (
                     <option value={e.product} key={e._id}>{e.product}</option>
@@ -141,8 +141,8 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
           <div className='edit-form-inputs-right'>
             <div className='edit-form-input'>
               <Text>Servicio:</Text>
-              <Select onChange={(e) => handleSelect(e)} width='50%' backgroundColor={'#fff'} className='edit-form-inputs-left-conductor-input' name='services'>
-                <option value="" disabled selected hidden>{inputs.services}</option>
+              <Select defaultValue={inputs.services} onChange={(e) => handleSelect(e)} width='50%' backgroundColor={'#fff'} className='edit-form-inputs-left-conductor-input' name='services'>
+                <option value="" disabled hidden>{inputs.services}</option>
                 <option value='Servicio 1'>Servicio 1</option>
                 <option value='Servicio 2'>Servicio 2</option>
                 <option value='Servicio 3'>Servicio 3</option>
@@ -150,8 +150,9 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
             </div>
             <div className='edit-form-input'>
               <Text>Estación:</Text>
-              <Select onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='workstation'>
-              <option value="" disabled selected hidden>{inputs.workstation}</option>
+              <Select defaultValue={inputs.workstation} onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='workstation'>
+              <option value=""  disabled hidden >{inputs.workstation}</option>
+             {/*  <option value="" disabled hidden>{inputs.workstation}</option> */}
                 {
                   stationsRedux.map(opt => (
                     <option key={opt._id} value={opt.workStation}>
@@ -163,8 +164,8 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
             </div>
             <div className='edit-form-input'>
               <Text>Técnico:</Text>
-              <Select onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='technician'>
-              <option value="" disabled selected hidden>{inputs.technician}</option>
+              <Select defaultValue={inputs.technician} onChange={(e) => handleSelect(e)} width='50%' className='edit-form-inputs-left-conductor-input' backgroundColor={'#fff'} name='technician'>
+              <option value="" disabled hidden>{inputs.technician}</option>
                 {
                   techRedux.map(tech => (
                     <option key={tech._id} value={tech.name}>{tech.name}</option>
