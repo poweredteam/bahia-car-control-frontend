@@ -1,6 +1,0 @@
-export * from './clients'
-export * from './products'
-export * from './services'
-export * from './station'
-export * from './tech'
-export * from './text'
