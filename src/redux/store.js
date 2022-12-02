@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { clientSlice, serviceSlice, stationSlice, productSlice } from './slices'
+import { clientSlice, serviceSlice, stationSlice, productSlice } from './index'
 import { techSlice } from './slices/tech'
 
 const store = configureStore({

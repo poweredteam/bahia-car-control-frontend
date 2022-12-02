@@ -2,22 +2,21 @@
 import { Text, Input, Select, Textarea, Button } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import './EditFinish.css'
-import { getProduct } from '../../../../redux/slices'
-import { sendService, removeService, updateService } from '../../../../redux/slices/services'
+import { sendService, removeService, updateService, getProduct } from '../../../../redux'
 import swal from 'sweetalert'
+import './EditFinish.css'
 
 function EditFinish({ estado, timer, onClose, vehicle_id }) {
+  useEffect(() => {
+    dispatch(getProduct())
+  }, [])
   const dispatch = useDispatch()
   const productos = useSelector(state => state.products.products)
   const serviceRedux = useSelector(state => state.service.service)
   const stationsRedux = useSelector(state => state.station.station)
   const techRedux = useSelector(state => state.tech.tech)
-
   const serviceFound = serviceRedux.filter(s => s.vehicle_id === vehicle_id)
 
-
-  
   const [inputs, setInputs] = useState({
     data : serviceFound[0].data,
     timer: `${timer.hours}:${timer.minutes}:${timer.seconds}`,
@@ -27,27 +26,23 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
     kilometers: serviceFound[0].kilometers ? serviceFound[0].kilometers : '',
     technician: serviceFound[0].technician ? serviceFound[0].technician : '',
     vehicle_id: vehicle_id,
-    goods: [],
+    goods: serviceFound[0].goods ? serviceFound[0].goods : '',
     services: serviceFound[0].services ? serviceFound[0].services : '',
     comments: serviceFound[0].comments ? serviceFound[0].comments : ''
   })
   
   const generalInfo = {
-    type: inputs.services,
-    cronometer: inputs.timer,
-    datetime: inputs.datetime,
-    workstation: inputs.workstation,
-    technician: inputs.technician,
-    kilometers: inputs.kilometers,
-    goods: inputs.goods,
-    vehicle_id: vehicle_id,
-    driver: inputs.driver,
-    comments: inputs.comments,
+    type: inputs.services ? inputs.services : 'mantenimiento',
+    cronometer: inputs.timer ? inputs.timer : '',
+    datetime: inputs.datetime ? inputs.datetime : '',
+    workstation: inputs.workstation ? inputs.workstation : '1',
+    technician: inputs.technician ? inputs.technician : '',
+    kilometers: inputs.kilometers ? inputs.kilometers : '0',
+    goods: inputs.goods ? inputs.goods : [],
+    vehicle_id: vehicle_id ? vehicle_id : '',
+    driver: inputs.driver ? inputs.driver : '',
+    comments: inputs.comments ? inputs.comments : '',
   }
-
-  useEffect(() => {
-    dispatch(getProduct())
-  }, [])
 
   function handleDeleteProduct(e) {
     e.preventDefault()
@@ -86,7 +81,7 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
         switch (value) {
           case 'Si':
             dispatch(sendService(generalInfo))
-            // dispatch(removeService(vehicle_id))
+            dispatch(removeService(vehicle_id))
             localStorage.removeItem(`${vehicle_id}`)
             break
           case 'No':
@@ -97,7 +92,12 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
       })
     } else {
       dispatch(updateService(inputs))
-      // alert('guard')
+      swal({
+        title : "Atención",
+        text: "Cambios guardados exitosamente",
+        icon : "success"
+      })
+      onClose()
     }
   }
 
@@ -134,11 +134,10 @@ function EditFinish({ estado, timer, onClose, vehicle_id }) {
                 </Select>
               </div>
               <div className='edit-form-selected-products'>
-                {inputs.products?.map((prod, i) => <button className='edit-form-selected-product' key={i} name={prod} onClick={(e) => handleDeleteProduct(e)}>{prod}</button>)}
+                {inputs.goods?.map((prod, i) => <button className='edit-form-selected-product' key={i} name={prod} onClick={(e) => handleDeleteProduct(e)}>{prod}</button>)}
               </div>
             </div>
           </div>
-          {/* Servicios derecha */}
           <div className='edit-form-inputs-right'>
             <div className='edit-form-input'>
               <Text>Servicio:</Text>
