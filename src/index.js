@@ -3,7 +3,8 @@ import { StrictMode } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import '@fontsource/roboto/400.css'
 
 import store from './redux/store'
 import theme from './styles/chakra/theme'
@@ -15,6 +16,7 @@ root.render(
     <Provider store={store}>
       <ChakraProvider theme={theme}>
         <RouterProvider router={router} />
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       </ChakraProvider>
     </Provider>
   </StrictMode>
