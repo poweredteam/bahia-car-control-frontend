@@ -1,5 +1,5 @@
 import App from 'App'
-import { Login, Home, Register } from 'pages'
+import { Login, Home, Register, NewPassword } from 'pages'
 import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />
+  },
+  {
+    path: 'auth/new-password',
+    element: <NewPassword />
   }
 ])
 

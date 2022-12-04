@@ -9,22 +9,18 @@ import {
   ModalOverlay
 } from '@chakra-ui/react'
 
-function ModalComponent({ isOpen, onClose }) {
+function ModalComponent({ title, isOpen, onClose, footer, children }) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal size='sm' isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{title && title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            hi
+            { children }
           </ModalBody>
-
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant='ghost'>Secondary Action</Button>
+            { footer }
           </ModalFooter>
         </ModalContent>
       </Modal>

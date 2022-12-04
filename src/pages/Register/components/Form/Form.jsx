@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import {
   Button,
+  Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input
 } from '@chakra-ui/react'
@@ -14,8 +14,7 @@ import { createUserAdapter } from 'adapters'
 const initialState = {
   username: '',
   email: '',
-  password: '',
-  confirmPassword: ''
+  password: ''
 }
 
 function Form() {
@@ -23,7 +22,7 @@ function Form() {
   const [isWrong, setIsWrong] = useState(false)
   const dispatch = useDispatch()
 
-  const { username, email, password, confirmPassword } = values
+  const { username, email, password } = values
 
   const handleChange = ({ target }) => {
     setValues({
@@ -34,57 +33,43 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (confirmPassword !== password) {
-      return setIsWrong(true)
-    }
     dispatch(signUp(createUserAdapter(values)))
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl isRequired>
-        <FormLabel>Nombre de usuario</FormLabel>
-        <Input
-          type='text'
-          name='username'
-          value={username}
-          onChange={handleChange}
-        />
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel>Correo electronico</FormLabel>
-        <Input
-          type='email'
-          name='email'
-          value={email}
-          onChange={handleChange}
-        />
-      </FormControl>
-      <FormControl isRequired isInvalid={isWrong}>
-        <FormLabel>Contraseña</FormLabel>
-        <Input
-          type='password'
-          name='password'
-          value={password}
-          onChange={handleChange}
-        />
-      </FormControl>
-      <FormControl isRequired isInvalid={isWrong}>
-        <FormLabel>Confirmar contraseña</FormLabel>
-        <Input
-          type='password'
-          name='confirmPassword'
-          value={confirmPassword}
-          onChange={handleChange}
-        />
-        {isWrong &&
-          <FormErrorMessage>Las contraseñas no coinciden</FormErrorMessage>
-        }
-      </FormControl>
-      <Button
-        type='submit'
-        colorScheme='blue'
-      >Registrar</Button>
+    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+      <Flex direction="column" mt="5" gap="4">
+        <FormControl isRequired>
+          <FormLabel>Nombre de usuario</FormLabel>
+          <Input
+            type="text"
+            name="username"
+            value={username}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Correo electronico</FormLabel>
+          <Input
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Contraseña</FormLabel>
+          <Input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <Button type="submit" mt="4" colorScheme="orange">
+          Crear cuenta
+        </Button>
+      </Flex>
     </form>
   )
 }
