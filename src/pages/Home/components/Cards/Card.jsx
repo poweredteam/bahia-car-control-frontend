@@ -40,7 +40,6 @@ function Card({ vehicle_id, workstation }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(e.target.name)
     setEstado(e.target.name)
     if (e.target.name === 'end') {
       pause()

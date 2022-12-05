@@ -3,6 +3,7 @@ import { Stack, Flex, Container } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Cards, Card } from './components'
 import Formcard from './components/Form/Form.home'
+import RegisterClient from '../Home/components/RegisterClient/RegisterClient'
 import { getClients } from '../../redux/slices/clients'
 import './home.css'
 
@@ -16,6 +17,7 @@ function Home() {
       <Flex flexWrap="wrap">
         <Formcard />
         <Cards />
+        {/* <RegisterClient /> */}
       </Flex>
     </Container>
   )
