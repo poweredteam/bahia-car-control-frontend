@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import './Form.home.css'
 import { addService } from '../../../../redux/slices/services/serviceSlice.js'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { getStations } from '../../../../redux/slices/station/thunk'
 import { getTeches } from '../../../../redux/slices/tech/thunk.js'
 import { validateBack } from '../../../../redux/slices/services/thunk'
+import { relateLicense, createLicense } from '../../../../redux/slices/clients/thunk'
+import RegisterClient from '../RegisterClient/RegisterClient.jsx'
 import {
   Flex,
   Box,
@@ -15,21 +15,30 @@ import {
   FormControl,
   Input,
   Button,
-  Select
+  Select,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent
 } from '@chakra-ui/react'
+import 'react-toastify/dist/ReactToastify.css'
+import './Form.home.css'
+import swal from 'sweetalert'
 
 function Formcard() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    reset
+  } = useForm()
   useEffect(() => {
     dispatch(getStations())
     dispatch(getTeches())
   }, [])
   const dispatch = useDispatch()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   // Get data tech/station/service using useSelector
   const techOptions = useSelector((state) => state.tech.tech)
   const stationOptions = useSelector((state) => state.station.station)
@@ -53,21 +62,135 @@ function Formcard() {
       workstation,
       technician
     }
-    dispatch(validateBack(clientId, vehicle_id)).then((res) => {
-      if (res.client === false && res.licence === false && res.isRelated === false) {
-        alert('cliente y placa no existe, por favor crealos y relacionalos')
+    const placaFound = serviceRedux.filter((s) => s.vehicle_id === service.vehicle_id)
+    dispatch(validateBack(clientId, vehicle_id.toUpperCase())).then((res) => {
+      if (res.client === false && res.license === false && res.isRelated === false) {
+        swal({
+          title: 'Atención',
+          text: 'El cliente y la placa no esta registrados ¿Quiere registrarlas y asociarlas?',
+          icon: 'warning',
+          buttons: {
+            No: true,
+            Si: true
+          }
+        }).then((value) => {
+          switch (value) {
+            case 'Si':
+              onOpen()
+              break
+            case 'No':
+              onClose()
+              break
+            default:
+              break
+          }
+        })
       }
-      if (res.client === true && res.licence === false && res.isRelated === false) {
-        alert('cliente  existe pero la placa no existe, por favor crea la placa y relacionala al cliente')
+      if (res.client === true && res.license === false && res.isRelated === false) {
+        swal({
+          title: 'Atención',
+          text: 'El cliente esta registrado pero la placa no esta creada ¿Quiere registrar la placa y asociarle al cliente?',
+          icon: 'warning',
+          buttons: {
+            No: true,
+            Si: true
+          }
+        }).then(async (value) => {
+          switch (value) {
+            case 'Si':
+              await dispatch(createLicense(vehicle_id.toUpperCase()))
+              await dispatch(relateLicense(vehicle_id.toUpperCase(), service.clientId))
+              if (placaFound.length > 0) {
+                return notifyPlacaError()
+              }
+              await swal({
+                title: 'Felicitaciones',
+                text: 'La placa ha sido creada y relacionada exitosamente, su servicio sera creado',
+                icon: 'success'
+              })
+              await dispatch(addService({
+                ...service,
+                data: res.data,
+                type: '',
+                timer: null,
+                datetime: `${currentDate} ${currentTime}`,
+                kilometers: '',
+                goods: [],
+                driver: '',
+                comments: ''
+              }))
+              break
+            case 'No':
+              onClose()
+              break
+            default:
+              break
+          }
+        })
       }
-      if (res.client === false && res.licence === true && res.isRelated === false) {
-        alert('cliente no esta creado, pero la placa existe, por favor crea al cliente y relaciona la placa')
+      if (res.client === false && res.license === true && res.isRelated === false) {
+        swal({
+          title: 'Atención',
+          text: 'El cliente no esta registrado pero la placa existe ¿Quiere registrar al cliente y asociarle la placa?',
+          icon: 'warning',
+          buttons: {
+            No: true,
+            Si: true
+          }
+        }).then((value) => {
+          switch (value) {
+            case 'Si':
+              onOpen()
+              break
+            case 'No':
+              onClose()
+              break
+            default:
+              break
+          }
+        })
       }
-      if (res.client === true && res.licence === true && res.isRelated === false) {
-        alert('cliente y placa existe, por favor relaciona la placa al cliente')
+      if (res.client === true && res.license === true && res.isRelated === false) {
+        swal({
+          title: 'Atención',
+          text: 'La placa no esta relacionada al cliente ¿Quiere relacionarla?',
+          icon: 'warning',
+          buttons: {
+            No: true,
+            Si: true
+          }
+        }).then((value) => {
+          switch (value) {
+            case 'Si':
+              dispatch(relateLicense(service.vehicle_id, service.clientId))
+              swal({
+                title: 'Felicitaciones',
+                text: 'La placa ha sido relacionada exitosamente',
+                icon: 'success'
+              })
+              if (placaFound.length > 0) {
+                return notifyPlacaError()
+              }
+              dispatch(addService({
+                ...service,
+                data: res.data,
+                type: '',
+                timer: null,
+                datetime: `${currentDate} ${currentTime}`,
+                kilometers: '',
+                goods: [],
+                driver: '',
+                comments: ''
+              }))
+              break
+            case 'No':
+              break
+            default:
+              break
+          }
+        })
       }
-      if (res.client === true && res.licence === true && res.isRelated === true) {
-        const placaFound = serviceRedux.filter((s) => s.vehicle_id === service.vehicle_id)
+      if (res.client === true && res.license === true && res.isRelated === true) {
         if (placaFound.length > 0) {
           return notifyPlacaError()
         } else {
@@ -170,6 +293,16 @@ function Formcard() {
           </HStack>
         </Flex>
       </form>
+      <Modal isOpen={isOpen} onClose={onClose} width='fit-content'>
+          <ModalOverlay />
+          <ModalContent maxWidth={'none'} width={'fit-content'}>
+            <RegisterClient
+              onClose={onClose}
+              vehicle_id={getValues('vehicle_id')}
+              identificacion={getValues('clientId')}
+              />
+          </ModalContent>
+      </Modal>
     </Box>
   )
 }
