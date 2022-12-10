@@ -1,114 +1,133 @@
-import { Box, Flex, Spacer, Center, Text, Button, Icon } from '@chakra-ui/react'
+import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import { useStopwatch } from 'react-timer-hook'
+import { Box, Flex, Spacer, Center, Text, Button, Icon, AlertDialog, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
+import { sendService, removeService, addService } from '../../../../redux/slices/services'
+import swal from 'sweetalert'
 import './Card.css'
+import { EditFinish } from '../EditFinish'
 
-function Card() {
-  const [play, setPlay] = useState(true)
+function ItemHeader({ text, text2 }) {
+  return (
+    <Flex flex={4} direction="column" textAlign="center" justify="center" align="center">
+      <Text fontSize="14px" fontWeight="medium" color="brand.dark" width="78px">
+        {text}
+      </Text>
+      <Text bg="white" borderRadius="5px" fontSize="16px" fontWeight="semibold" color="brand.dark" width="78px">
+        {text2}
+      </Text>
+    </Flex>
+  )
+}
+ItemHeader.propTypes = {
+  text: PropTypes.string.isRequired,
+  text2: PropTypes.string.isRequired
+}
 
+function Card({ vehicle_id, workstation }) {
+  const dispatch = useDispatch()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [estado, setEstado] = useState('')
+  const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch({ autoStart: false })
+  const timer = {
+    hours: hours < 10 ? '0' + hours : hours,
+    minutes: minutes < 10 ? '0' + minutes : minutes,
+    seconds: seconds < 10 ? '0' + seconds : seconds
+  }
+  localStorage.setItem(`${vehicle_id}`, `${timer.hours}:${timer.minutes}:${timer.seconds}`)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(e.target.name)
+    setEstado(e.target.name)
+    if (e.target.name === 'end') {
+      pause()
+    }
+    onOpen()
+  }
   return (
     <Box
       bg="white"
       w="100%"
       maxW="230px"
+      minW="220px"
       h="304px"
-      maxH="304px"
-      overflow="hidden"
-      borderRadius="5px">
-      <Flex bg="brand.greyLigth" width="100%" align="center" height="63px">
-        <Flex
-          flex={4}
-          direction="column"
-          justify="center"
-          align="center"
-          width="78px">
-          <Flex w="78px" direction="column" justify="center" align="center">
-            <Text fontSize="14px" fontWeight="medium" color="brand.dark">
-              PLACA
-            </Text>
-          </Flex>
-          <Flex
-            bg="white"
-            w="78px"
-            direction="column"
-            justify="center"
-            align="center"
-            borderRadius="5px">
-            <Text fontSize="16px" fontWeight="semibold" color="brand.dark">
-              AAA111
-            </Text>
-          </Flex>
-        </Flex>
-        <Spacer></Spacer>
-        <Flex
-          flex={4}
-          direction="column"
-          justify="center"
-          align="center"
-          width="78px">
-          <Flex w="78px" direction="column" justify="center" align="center">
-            <Text fontSize="14px" fontWeight="medium" color="brand.dark">
-              ESTACION
-            </Text>
-          </Flex>
-          <Flex
-            bg="white"
-            w="78px"
-            direction="column"
-            justify="center"
-            align="center"
-            borderRadius="5px">
-            <Text fontSize="16px" fontWeight="semibold" color="brand.dark">
-              2
-            </Text>
-          </Flex>
-        </Flex>
+      maxH="400px"
+      boxShadow="0px 0px 10px -2px"
+      borderRadius="5px"
+      margin="10px 15px 10px 15px"
+    >
+      <Flex bg="brand.greyLight" width="100%" align="center" height="63px">
+        <ItemHeader text="PLACA" text2={vehicle_id} />
+        <ItemHeader text="ESTACION" text2={workstation} />
       </Flex>
       <Flex direction="column" justify="center" align="center">
-        <Flex>
-          <Text fontSize="36px" fontWeight="medium" color="brand.dark">
-            00:22:03
-          </Text>
-        </Flex>
-        <Flex h="110px">
-          <Button bg="brand.sec" borderRadius="100px" h="100px" w="100px">
-            {play ? (
-              <Center color="white" w="100px" justifyContent="flex-end">
-                <Icon as={FaPlay} w="60px" h="60px" />
-              </Center>
+        <Text
+          fontSize="36px"
+          fontWeight="medium"
+          color="brand.dark"
+          name="time"
+        >
+          {`${timer.hours}:${timer.minutes}:${timer.seconds}`}
+        </Text>
+        <Box h="110px" color="white">
+          <Button
+            bg="brand.sec"
+            borderRadius="100px"
+            h="100px"
+            w="100px"
+            onClick={isRunning ? pause : start}
+          >
+            {!isRunning ? (
+              <Icon as={FaPlay} w="60px" h="60px" />
             ) : (
-              <Center color="white" w="100px" justifyContent="center">
-                <Icon as={FaPause} w="60px" h="60px" />
-              </Center>
+              <Icon as={FaPause} w="60px" h="60px" />
             )}
           </Button>
-        </Flex>
+        </Box>
         <Flex
-          width="191px"
+          maxWidth="191px"
           h="70px"
           direction="column"
+          gap="10px"
           justify="center"
           align="center"
-          paddingBottom="3px">
+          paddingBottom="3px"
+        >
           <Button
             bg="brand.sec"
             color="white"
             width="191px"
             height="30px"
-            onClick={() => setPlay(false)}>
+            name="end"
+            onClick={(e) => handleSubmit(e)}
+          >
             FINALIZAR
           </Button>
-          <Spacer />
           <Button
-            bg="brand.greyLigth"
+            bg="brand.greyLight"
             color="brand.dark"
             width="191px"
             height="30px"
-            onClick={() => setPlay(true)}>
+            name="edit"
+            onClick={(e) => handleSubmit(e)}
+          >
             EDITAR SERVICIO
           </Button>
         </Flex>
       </Flex>
+      <Modal isOpen={isOpen} onClose={onClose} width='fit-content' >
+          <ModalOverlay />
+          <ModalContent maxWidth={'none'} width={'fit-content'}>
+            <EditFinish
+              onClose={onClose}
+              estado={estado === 'end' ? 'Finalizar' : 'Editar'}
+              vehicle_id={vehicle_id}
+              timer={timer}/>
+          </ModalContent>
+        </Modal>
     </Box>
   )
 }

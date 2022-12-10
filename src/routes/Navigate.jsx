@@ -1,5 +1,5 @@
 import App from 'App'
-import { Login, Home, Register, NewPassword } from 'pages'
+import { Login, Register, NewPassword } from 'pages'
 import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([

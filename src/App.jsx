@@ -1,9 +1,9 @@
 import { Route } from 'wouter'
 
 import { Layout } from 'components'
-import { SECTIONS } from 'utilities/constans'
+import { SECTIONS } from 'utilities/routes'
 
-function App() {
+export default function App() {
   return (
     <Layout>
       {SECTIONS.map(({ path, component }) => {
@@ -12,5 +12,3 @@ function App() {
     </Layout>
   )
 }
-
-export default App

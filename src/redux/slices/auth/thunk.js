@@ -4,12 +4,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const signIn = createAsyncThunk(
   'auth/signIn', async (user, { rejectWithValue }) => {
-    const { email, password } = user
     try {
-      await api.post('/auth/login/', { email, password })
-      return 'Se inicio sesión con éxito'
+      const { email, password } = user
+      const { data } = await api.post('/auth/login/', { email, password })
+      return { username: data.username, token: data.token }
     } catch (err) {
-      return rejectWithValue(err.response.data)
+      return rejectWithValue('La contraseña o el email no coinciden')
     }
   }
 )
@@ -17,12 +17,12 @@ export const signIn = createAsyncThunk(
 export const signUp = createAsyncThunk(
   'auth/signUp',
   async (user, { rejectWithValue }) => {
-    const { name, email, password } = user
     try {
+      const { name, email, password } = user
       await api.post('/auth/register', { name, email, password })
       return 'Se creo el usuario con éxito'
     } catch (err) {
-      return rejectWithValue(err.response.data)
+      return rejectWithValue('El usuario no pude ser creado')
     }
   }
 )
@@ -35,9 +35,10 @@ export const forgotPassword = createAsyncThunk(
         '/auth/forgot-password/',
         { email }
       )
+      return 'Email enviado con éxito'
     } catch (err) {
       console.log(err)
-      return rejectWithValue(err.response.data)
+      return rejectWithValue('Oops el email no pudo ser enviado, ¿Hay una cuenta con este correo?')
     }
   }
 )
@@ -57,7 +58,7 @@ export const resetPassword = createAsyncThunk(
       )
       return 'Contraseña cambiada con éxito'
     } catch (err) {
-      console.log(err)
+      return rejectWithValue('Oops la contraseña no pudo ser cambiada')
     }
   }
 )

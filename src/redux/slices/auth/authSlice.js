@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { saveState } from 'utilities/localStorage'
-import { forgotPassword, signIn } from './thunk'
+import { saveState, loadState } from 'utilities/localStorage'
+import { forgotPassword, resetPassword, signIn, signUp } from './thunk'
 
 // STATUS (type): idle, success, failed
 const initialState = {
+  token: loadState('user') | null,
   status: {
     type: 'idle',
     msg: ''
@@ -21,22 +22,50 @@ export const authSlice = createSlice({
         type: 'succces',
         msg: 'Sesión iniciada con éxito'
       }
+      state.token = action.payload.token
       saveState('user', action.payload)
     })
     builder.addCase(signIn.rejected, (state, action) => {
       state.status = {
         type: 'failed',
-        msg: ''
+        msg: action.payload
+      }
+    })
+    builder.addCase(signUp.fulfilled, (state, action) => {
+      state.status = {
+        type: 'succces',
+        msg: action.payload
+      }
+    })
+    builder.addCase(signUp.rejected, (state, action) => {
+      state.status = {
+        type: 'failed',
+        msg: action.payload
       }
     })
     builder.addCase(forgotPassword.fulfilled, (state, action) => {
       state.status = {
         type: 'success',
-        msg: ''
+        msg: action.payload
       }
     })
     builder.addCase(forgotPassword.rejected, (state, action) => {
-      console.log(action.payload)
+      state.status = {
+        type: 'failed',
+        msg: action.payload
+      }
+    })
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.status = {
+        type: 'success',
+        msg: action.payload
+      }
+    })
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      state.status = {
+        type: 'failed',
+        msg: action.payload
+      }
     })
   }
 })

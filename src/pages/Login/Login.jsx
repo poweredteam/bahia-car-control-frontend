@@ -1,5 +1,6 @@
 import { Form } from './components'
-import { Avatar, Box, Flex, Heading } from '@chakra-ui/react'
+import { Avatar, Box, Center, Flex, Heading, Icon } from '@chakra-ui/react'
+import { GiKiwiBird } from 'react-icons/gi'
 
 function Login() {
   return (
@@ -22,7 +23,8 @@ function Login() {
         alignItems="center"
         backgroundColor="white"
       >
-        <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
+
+          <Icon as={GiKiwiBird} boxSize="35px" />
         <Heading as='h1' size='lg' fontFamily='serif'>¡Bienvenido!</Heading>
         <Form />
       </Box>

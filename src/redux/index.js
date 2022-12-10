@@ -1,0 +1,7 @@
+export * from './slices/clients'
+export * from './slices/products'
+export * from './slices/services'
+export * from './slices/station'
+export * from './slices/tech'
+export * from './slices/text'
+export { default as store } from './store'

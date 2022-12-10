@@ -24,8 +24,8 @@ const theme = extendTheme({
       triadicGreenLight: '#7EE114',
       triadicGreenDark: '#14E177',
       grayLight: '#E2E8F0',
-      dark: '#212121',
-      light: '#FFFFF7'
+      dark: '#424242',
+      light: '#ECEFF1'
     }
   },
   styles: {
@@ -38,14 +38,11 @@ const theme = extendTheme({
       '*::-webkit-scrollbar': {
         display: 'none'
       },
-      body: {
-        bg: mode('brand.light', 'brand.dark')(props)
+      '*': {
+        WebkitTapHighlightColor: 'transparent'
       },
-      '.active': {
-        '&::before': {
-          left: '17px',
-          transition: 'left .2s ease'
-        }
+      body: {
+        bg: mode('brand.dark', 'brand.light')(props)
       }
     })
   },

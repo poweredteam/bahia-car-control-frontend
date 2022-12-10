@@ -1,12 +1,27 @@
-import { HStack, Center, Text, Icon } from '@chakra-ui/react'
+import { HStack, Center, Icon, Heading } from '@chakra-ui/react'
+import { GiKiwiBird } from 'react-icons/gi'
 
-export default function Logo() {
+export default function Logo({ d }) {
   return (
-    <HStack h="20%" w="full" border="1px">
-      <Center>
-        <Icon src={'../'} alt="" />
-      </Center>
-      <Text>Car Bahia</Text>
+    <HStack
+      h="10%"
+      w="full"
+      alignItems="center"
+      justifyContent="center"
+      display="inline-flex"
+    >
+      {d ? (
+        <>
+          <Center>
+            <Icon as={GiKiwiBird} boxSize="35px" />
+          </Center>
+          <Heading>Kiwi</Heading>
+        </>
+      ) : (
+        <Center>
+          <Icon as={GiKiwiBird} boxSize="35px" />
+        </Center>
+      )}
     </HStack>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   Button,
   Flex,
@@ -7,7 +7,7 @@ import {
   FormHelperText,
   FormLabel,
   Input,
-  Stack,
+  Link,
   useDisclosure
 } from '@chakra-ui/react'
 
@@ -16,7 +16,7 @@ import { signIn } from 'redux/slices/auth/thunk'
 import { createUserAdapter } from 'adapters'
 import { Modal } from 'components/Modal'
 import { ResetPassword } from '../../components'
-import { Link } from 'react-router-dom'
+import { useLocation } from 'wouter'
 
 const initialState = {
   email: '',
@@ -25,6 +25,7 @@ const initialState = {
 
 function Form() {
   const [values, setValues] = useState(initialState)
+  const [_, setLocation] = useLocation()
   const { msg, type } = useSelector((state) => state.auth.status)
   const dispatch = useDispatch()
 
@@ -43,6 +44,7 @@ function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     dispatch(signIn(createUserAdapter(values)))
+    isWrong && setLocation('/')
   }
 
   return (

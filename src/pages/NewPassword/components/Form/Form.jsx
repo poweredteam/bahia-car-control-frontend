@@ -2,8 +2,9 @@ import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from '@
 import { createUserAdapter } from 'adapters'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+// import { useSearchParams } from 'react-router-dom'
 import { resetPassword } from 'redux/slices'
+import { useLocation, useRoute } from 'wouter'
 
 const initialState = {
   password: '',
@@ -11,7 +12,8 @@ const initialState = {
 }
 
 function Form() {
-  const [searchParams] = useSearchParams()
+  // const [searchParams] = useSearchParams()
+  const [match, params] = useRoute('/auth/new-password/:token')
   const { msg, type } = useSelector((state) => state.auth.status)
   const [values, setValues] = useState(initialState)
   const [isWrong, setIsWrong] = useState(false)
@@ -31,9 +33,7 @@ function Form() {
     if (confirmPassword !== password) {
       return setIsWrong(true)
     }
-    console.log(password, searchParams.get('token'))
-
-    dispatch(resetPassword({ password, token: searchParams.get('token') }))
+    dispatch(resetPassword({ password, token: params.token }))
   }
   return (
     <>

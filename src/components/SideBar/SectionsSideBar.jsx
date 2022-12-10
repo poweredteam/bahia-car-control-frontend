@@ -8,56 +8,83 @@ import {
   Icon,
   Link,
   Text,
-  VStack
+  VStack,
+  Center
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { Link as ReachLink, useLocation } from 'wouter'
 
-import { adminPages, filteredSections, PA } from '../../utilities/constans'
+import { filteredPip, filteredSections, PA } from '../../utilities/constans'
+import { adminPages, SECTIONS } from '../../utilities/routes'
 import AdminPage from './AdminPage'
 
-export default function SectionSideBar() {
+export default function SectionSideBar({ d }) {
   const [location] = useLocation()
 
-  return (
-    <VStack spacing="0" w="full" h="70%">
+  return d ? (
+    <VStack as={motion.div} spacing="0" w="full" h="70%">
       {filteredSections.map(({ title, path, activeIcon, inactiveIcon }) => {
         return (
-          <HStack key={title} h="3rem" w="inherit" cursor="pointer">
-            <Link as={ReachLink} href={path}>
-              <HStack
-                as={motion.div}
-                pl="4"
-                h="3rem"
-                w="300px"
-                transition="0.2s linear">
-                <Icon
-                  as={location === path ? activeIcon : inactiveIcon}
-                  w="25px"
-                  h="25px"
-                />
-                <Text>{title}</Text>
-              </HStack>
-            </Link>
-          </HStack>
+          <Center key={path} boxShadow="base" h="3rem" w="full">
+            <HStack
+              display="inline-block"
+              key={title}
+              w="inherit"
+              h="full"
+              cursor="pointer"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Link as={ReachLink} href={path}>
+                <HStack
+                  as={motion.div}
+                  pl="4"
+                  w="300px"
+                  h="full"
+                  transition="0.2s linear"
+                >
+                  <Icon
+                    as={location === path ? activeIcon : inactiveIcon}
+                    boxSize="25px"
+                  />
+                  <Text
+                    as={motion.p}
+                    initial={{ opacity: 0, x: 25 }}
+                    animate={{ x: 0, opacity: 1 }}
+                  >
+                    {title}
+                  </Text>
+                </HStack>
+              </Link>
+            </HStack>
+          </Center>
         )
       })}
       <Accordion allowMultiple>
-        <AccordionItem>
+        <AccordionItem boxShadow="base">
           {({ isExpanded }) => (
             <>
-              <AccordionButton _expanded={{ bg: 'brand.select' }}>
+              <AccordionButton
+                href={PA.path}
+                _expanded={{ bg: 'brand.select' }}
+                display="inline-flex"
+              >
                 <HStack w="full">
                   <Icon
                     as={!isExpanded ? PA.inactiveIcon : PA.activeIcon}
-                    w="25px"
-                    h="25px"
+                    boxSize="25px"
                   />
-                  <Text>{PA.title}</Text>
+                  <Text
+                    as={motion.p}
+                    initial={{ opacity: 0, x: 25 }}
+                    animate={{ x: 0, opacity: 1 }}
+                  >
+                    {PA.title}
+                  </Text>
                   <AccordionIcon />
                 </HStack>
               </AccordionButton>
-              <AccordionPanel>
+              <AccordionPanel boxShadow="sm">
                 {adminPages?.map(({ title, href }, i) => {
                   return (
                     <AdminPage key={title} title={title} href={href} i={i} />
@@ -68,6 +95,27 @@ export default function SectionSideBar() {
           )}
         </AccordionItem>
       </Accordion>
+    </VStack>
+  ) : (
+    <VStack as={motion.div} spacing="0" w="full" h="60%">
+      {filteredPip.map(({ path, activeIcon, inactiveIcon }) => {
+        return (
+          <Center
+            key={path}
+            boxShadow="base"
+            h="3rem"
+            w="inherit"
+            bg={location === path ? 'brand.select' : ''}
+          >
+            <Link as={ReachLink} href={path}>
+              <Icon
+                as={location === path ? activeIcon : inactiveIcon}
+                boxSize="25px"
+              />
+            </Link>
+          </Center>
+        )
+      })}
     </VStack>
   )
 }
