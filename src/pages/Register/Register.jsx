@@ -1,8 +1,7 @@
+import { Box, Flex, Heading } from '@chakra-ui/react'
 import { Form } from './components'
-import { Avatar, Box, Center, Flex, Heading, Icon } from '@chakra-ui/react'
-import { GiKiwiBird } from 'react-icons/gi'
 
-function Login() {
+function Register() {
   return (
     <Flex
       direction="column"
@@ -13,23 +12,20 @@ function Login() {
       alignItems="center">
       <Box
         display="flex"
-        gap='4'
-        maxW='sm'
+        gap="4"
+        maxW="sm"
         flexDir="column"
         width="full"
         mb="2"
-        p='10'
+        p="10"
         justifyContent="center"
         alignItems="center"
-        backgroundColor="white"
-      >
-
-          <Icon as={GiKiwiBird} boxSize="35px" />
-        <Heading as='h1' size='lg' fontFamily='serif'>¡Bienvenido!</Heading>
+        backgroundColor="white">
+        <Heading as='h1' size='lg' fontFamily='serif'>Crea una cuenta</Heading>
         <Form />
       </Box>
     </Flex>
   )
 }
 
-export default Login
+export default Register
