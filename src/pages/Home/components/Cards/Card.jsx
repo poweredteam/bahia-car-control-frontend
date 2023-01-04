@@ -1,8 +1,9 @@
+/*eslint-disable*/
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useStopwatch } from 'react-timer-hook'
 import { Box, Flex, Spacer, Center, Text, Button, Icon, AlertDialog, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
 import { sendService, removeService, addService } from '../../../../redux/slices/services'
 import swal from 'sweetalert'
@@ -31,12 +32,14 @@ function Card({ vehicle_id, workstation }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [estado, setEstado] = useState('')
   const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch({ autoStart: false })
+
   const timer = {
     hours: hours < 10 ? '0' + hours : hours,
     minutes: minutes < 10 ? '0' + minutes : minutes,
     seconds: seconds < 10 ? '0' + seconds : seconds
   }
-  localStorage.setItem(`${vehicle_id}`, `${timer.hours}:${timer.minutes}:${timer.seconds}`)
+  localStorage.setItem(`${vehicle_id}`, JSON.stringify(timer))
+  const localStorageTime = JSON.parse(localStorage.getItem(vehicle_id))
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -69,7 +72,7 @@ function Card({ vehicle_id, workstation }) {
           color="brand.dark"
           name="time"
         >
-          {`${timer.hours}:${timer.minutes}:${timer.seconds}`}
+          {`${localStorageTime.hours}:${localStorageTime.minutes}:${localStorageTime.seconds}`}
         </Text>
         <Box h="110px" color="white">
           <Button
