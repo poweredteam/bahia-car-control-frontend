@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Flex,
@@ -7,9 +7,10 @@ import {
   Input
 } from '@chakra-ui/react'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signUp } from 'redux/slices/auth/thunk'
 import { createUserAdapter } from 'adapters'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = {
   username: '',
@@ -19,8 +20,16 @@ const initialState = {
 
 function Form() {
   const [values, setValues] = useState(initialState)
-  const [isWrong, setIsWrong] = useState(false)
+  const status = useSelector((state) => state.auth.status)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (status === 'success') {
+      // setTimeout(navigate('/login'), 9000)
+      navigate('/login')
+    }
+  }, [status])
 
   const { username, email, password } = values
 

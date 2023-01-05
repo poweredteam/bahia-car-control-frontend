@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Button,
   Flex,
@@ -16,7 +16,7 @@ import { signIn } from 'redux/slices/auth/thunk'
 import { createUserAdapter } from 'adapters'
 import { Modal } from 'components/Modal'
 import { ResetPassword } from '../../components'
-import { useLocation } from 'wouter'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = {
   email: '',
@@ -25,14 +25,20 @@ const initialState = {
 
 function Form() {
   const [values, setValues] = useState(initialState)
-  const [_, setLocation] = useLocation()
-  const { msg, type } = useSelector((state) => state.auth.status)
+  const [isWrong, setIsWrong] = useState(false)
+  const status = useSelector((state) => state.auth.status)
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
+  useEffect(() => {
+    if (status === 'failed') setIsWrong(true)
+    if (status === 'success') {
+      // navigate('/')
+    }
+  }, [status])
+
   const { email, password } = values
-  const isWrong = type === 'failed'
 
   const handleChange = ({ target }) => {
     setValues({
@@ -44,7 +50,6 @@ function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     dispatch(signIn(createUserAdapter(values)))
-    isWrong && setLocation('/')
   }
 
   return (
@@ -68,7 +73,7 @@ function Form() {
               value={password}
               onChange={handleChange}
             />
-            {isWrong && <FormErrorMessage>{msg}</FormErrorMessage>}
+            {isWrong && <FormErrorMessage>El correo o contraseña son erroneos</FormErrorMessage>}
             <FormHelperText textAlign="right">
               <Link color="orange" onClick={onOpen} >
                 ¿Olvidaste tu contraseña?
@@ -80,7 +85,7 @@ function Form() {
           </Button>
         </Flex>
       </form>
-      <Modal isOpen={isOpen} onClose={onClose} text>
+      <Modal isOpen={isOpen} onClose={onClose} >
         <ResetPassword />
       </Modal>
     </>
