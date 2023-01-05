@@ -1,18 +1,19 @@
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { VStack, useBoolean, Button, Box } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
+import { PanelSIdeBar, Logo, Navbar } from 'components'
+import { useEffect } from 'react'
 
-import Sections from './SectionsSideBar'
-import Logo from './Logo'
-import PanelSideBar from './PanelSIdeBar'
-
-export default function SideBar({ parentD }) {
+export default function SideBar({ setIsOpenMenu }) {
   const [flag, setFlag] = useBoolean()
   const toggleMenu = {
     open: { width: '19rem' },
     closed: { width: '4rem' }
   }
-  parentD(flag)
+
+  useEffect(() => {
+    setIsOpenMenu(flag)
+  })
 
   return (
     <>
@@ -36,9 +37,9 @@ export default function SideBar({ parentD }) {
             {flag ? <FaArrowLeft /> : <FaArrowRight />}
           </Button>
         </Box>
-        <Logo d={flag} />
-        <Sections d={flag} />
-        <PanelSideBar d={flag} />
+        <Logo isOpenMenu={flag} />
+        <Navbar isOpenMenu={flag} />
+        <PanelSIdeBar isOpenMenu={flag} />
       </VStack>
     </>
   )

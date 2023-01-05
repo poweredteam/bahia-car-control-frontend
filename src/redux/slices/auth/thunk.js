@@ -7,7 +7,7 @@ export const signIn = createAsyncThunk(
     try {
       const { email, password } = user
       const { data } = await api.post('/auth/login/', { email, password })
-      return { username: data.username, token: data.token }
+      return { role: data.role, username: data.name, token: data.token }
     } catch (err) {
       return rejectWithValue('La contraseña o el email no coinciden')
     }

@@ -15,7 +15,7 @@ import { SentEmail } from '../../components'
 function ResetPassword() {
   const [email, setEmail] = useState('')
   const [isSent, setSent] = useState(false)
-  const { msg, type } = useSelector((state) => state.auth.status)
+  const status = useSelector((state) => state.auth.status)
   const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
@@ -26,7 +26,7 @@ function ResetPassword() {
 
   return (
     <Box display="flex" flexDir="column" gap="3">
-      {isSent && type === 'success' ? (
+      {isSent && status === 'success' ? (
         <SentEmail />
       ) : (
         <>
