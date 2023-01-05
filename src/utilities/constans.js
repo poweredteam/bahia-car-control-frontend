@@ -1,4 +1,4 @@
-import { SECTIONS } from './routes'
+import { SECTIONS } from './dynamicRoutes'
 
 export const filteredSections = SECTIONS.filter(
   (s) => s.path !== '/admin' && s.path !== '/pip'

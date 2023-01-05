@@ -1,7 +1,7 @@
 import { HStack, Center, Icon, Heading } from '@chakra-ui/react'
 import { GiKiwiBird } from 'react-icons/gi'
 
-export default function Logo({ d }) {
+export default function Logo({ isOpenMenu }) {
   return (
     <HStack
       h="10%"
@@ -10,7 +10,7 @@ export default function Logo({ d }) {
       justifyContent="center"
       display="inline-flex"
     >
-      {d ? (
+      {isOpenMenu ? (
         <>
           <Center>
             <Icon as={GiKiwiBird} boxSize="35px" />

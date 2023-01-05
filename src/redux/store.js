@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {
-  textSlice,
   authSlice,
   clientSlice,
   serviceSlice,
@@ -11,7 +10,6 @@ import {
 
 const store = configureStore({
   reducer: {
-    text: textSlice.reducer,
     auth: authSlice.reducer,
     clients: clientSlice.reducer,
     service: serviceSlice.reducer,
