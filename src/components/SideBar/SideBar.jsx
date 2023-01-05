@@ -1,7 +1,7 @@
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { VStack, useBoolean, Button, Box } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { PanelSideBar, Logo, Navbar } from 'components'
+import { PanelSIdeBar, Logo, Navbar } from 'components'
 import { useEffect } from 'react'
 
 export default function SideBar({ setIsOpenMenu }) {
@@ -39,7 +39,7 @@ export default function SideBar({ setIsOpenMenu }) {
         </Box>
         <Logo isOpenMenu={flag} />
         <Navbar isOpenMenu={flag} />
-        <PanelSideBar isOpenMenu={flag} />
+        <PanelSIdeBar isOpenMenu={flag} />
       </VStack>
     </>
   )
