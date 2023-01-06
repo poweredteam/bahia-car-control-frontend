@@ -1,21 +1,41 @@
 import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
 import { useStopwatch } from 'react-timer-hook'
-import { Box, Flex, Spacer, Center, Text, Button, Icon, AlertDialog, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  Icon,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent
+} from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaPause, FaPlay } from 'react-icons/fa'
-import { sendService, removeService, addService } from '../../../../redux/slices/services'
-import swal from 'sweetalert'
-import './Card.css'
 import { EditFinish } from '../EditFinish'
+import './Card.css'
 
 function ItemHeader({ text, text2 }) {
   return (
-    <Flex flex={4} direction="column" textAlign="center" justify="center" align="center">
+    <Flex
+      flex={4}
+      direction="column"
+      textAlign="center"
+      justify="center"
+      align="center"
+    >
       <Text fontSize="14px" fontWeight="medium" color="brand.dark" width="78px">
         {text}
       </Text>
-      <Text bg="white" borderRadius="5px" fontSize="16px" fontWeight="semibold" color="brand.dark" width="78px">
+      <Text
+        bg="white"
+        borderRadius="5px"
+        fontSize="16px"
+        fontWeight="semibold"
+        color="brand.dark"
+        width="78px"
+      >
         {text2}
       </Text>
     </Flex>
@@ -27,16 +47,19 @@ ItemHeader.propTypes = {
 }
 
 function Card({ vehicle_id, workstation }) {
-  const dispatch = useDispatch()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [estado, setEstado] = useState('')
-  const { seconds, minutes, hours, isRunning, start, pause, reset } = useStopwatch({ autoStart: false })
+  const { seconds, minutes, hours, isRunning, start, pause } =
+    useStopwatch({ autoStart: false })
   const timer = {
     hours: hours < 10 ? '0' + hours : hours,
     minutes: minutes < 10 ? '0' + minutes : minutes,
     seconds: seconds < 10 ? '0' + seconds : seconds
   }
-  localStorage.setItem(`${vehicle_id}`, `${timer.hours}:${timer.minutes}:${timer.seconds}`)
+  localStorage.setItem(
+    `${vehicle_id}`,
+    `${timer.hours}:${timer.minutes}:${timer.seconds}`
+  )
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -117,16 +140,17 @@ function Card({ vehicle_id, workstation }) {
           </Button>
         </Flex>
       </Flex>
-      <Modal isOpen={isOpen} onClose={onClose} width='fit-content' >
-          <ModalOverlay />
-          <ModalContent maxWidth={'none'} width={'fit-content'}>
-            <EditFinish
-              onClose={onClose}
-              estado={estado === 'end' ? 'Finalizar' : 'Editar'}
-              vehicle_id={vehicle_id}
-              timer={timer}/>
-          </ModalContent>
-        </Modal>
+      <Modal isOpen={isOpen} onClose={onClose} width="fit-content">
+        <ModalOverlay />
+        <ModalContent maxWidth={'none'} width={'fit-content'}>
+          <EditFinish
+            onClose={onClose}
+            estado={estado === 'end' ? 'Finalizar' : 'Editar'}
+            vehicle_id={vehicle_id}
+            timer={timer}
+          />
+        </ModalContent>
+      </Modal>
     </Box>
   )
 }

@@ -30,8 +30,10 @@ function ResetPassword() {
         <SentEmail />
       ) : (
         <>
-          <Heading size='lg' fontFamily='serif'>Resetear contraseña</Heading>
-          <Text mb='3'>
+          <Heading size="lg" fontFamily="serif">
+            Resetear contraseña
+          </Heading>
+          <Text mb="3">
             Ingresa el correo electronico asociado con tu cuenta para enviarte
             un correo con las instruciones para restablecer tu contraseña
           </Text>
@@ -45,7 +47,7 @@ function ResetPassword() {
                 onChange={({ target }) => setEmail(target.value)}
               />
             </FormControl>
-            <Button type="submit" mt="4" w="full" colorScheme='orange'>
+            <Button type="submit" mt="4" w="full" colorScheme="orange">
               Resetear contraseña
             </Button>
           </form>

@@ -1,8 +1,23 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { createClient, createLicense, relateLicense } from '../../../../redux/slices/clients/thunk'
+import {
+  createClient,
+  createLicense,
+  relateLicense
+} from '../../../../redux/slices/clients/thunk'
 import { validateBack } from '../../../../redux/slices/services/thunk'
-import { FormControl, FormLabel, FormErrorMessage, Container, Box, Stack, Input, WrapItem, Button, Text } from '@chakra-ui/react'
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Container,
+  Box,
+  Stack,
+  Input,
+  WrapItem,
+  Button,
+  Text
+} from '@chakra-ui/react'
 import swal from 'sweetalert'
 
 function RegisterClient({ onClose, identificacion, vehicle_id }) {
@@ -36,7 +51,11 @@ function RegisterClient({ onClose, identificacion, vehicle_id }) {
             case 'Si':
               dispatch(createClient(inputs))
               dispatch(relateLicense(vehicle_id, inputs.identification))
-              swal({ title: 'Felicitaciones', text: 'El cliente ha sido creado exitosamente y se ha relacionado la placa', icon: 'success' })
+              swal({
+                title: 'Felicitaciones',
+                text: 'El cliente ha sido creado exitosamente y se ha relacionado la placa',
+                icon: 'success'
+              })
               onClose()
               break
             case 'No':

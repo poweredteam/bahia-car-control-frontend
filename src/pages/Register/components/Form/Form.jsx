@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input
-} from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { signUp } from 'redux/slices/auth/thunk'

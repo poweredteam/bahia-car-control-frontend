@@ -16,7 +16,6 @@ import { signIn } from 'redux/slices/auth/thunk'
 import { createUserAdapter } from 'adapters'
 import { Modal } from 'components/Modal'
 import { ResetPassword } from '../../components'
-import { useNavigate } from 'react-router-dom'
 
 const initialState = {
   email: '',
@@ -28,7 +27,6 @@ function Form() {
   const [isWrong, setIsWrong] = useState(false)
   const status = useSelector((state) => state.auth.status)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
@@ -55,7 +53,7 @@ function Form() {
   return (
     <>
       <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-        <Flex direction='column' mt='5' gap='4'>
+        <Flex direction="column" mt="5" gap="4">
           <FormControl isRequired isInvalid={isWrong}>
             <FormLabel>Correo electronico</FormLabel>
             <Input
@@ -73,19 +71,23 @@ function Form() {
               value={password}
               onChange={handleChange}
             />
-            {isWrong && <FormErrorMessage>El correo o contraseña son erroneos</FormErrorMessage>}
+            {isWrong && (
+              <FormErrorMessage>
+                El correo o contraseña son erroneos
+              </FormErrorMessage>
+            )}
             <FormHelperText textAlign="right">
-              <Link color="orange" onClick={onOpen} >
+              <Link color="orange" onClick={onOpen}>
                 ¿Olvidaste tu contraseña?
               </Link>
             </FormHelperText>
           </FormControl>
-          <Button type="submit" mt='4' colorScheme='orange'>
+          <Button type="submit" mt="4" colorScheme="orange">
             Iniciar Sesión
           </Button>
         </Flex>
       </form>
-      <Modal isOpen={isOpen} onClose={onClose} >
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ResetPassword />
       </Modal>
     </>

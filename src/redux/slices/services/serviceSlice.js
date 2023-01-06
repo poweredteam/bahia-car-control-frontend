@@ -12,10 +12,12 @@ export const serviceSlice = createSlice({
       state.service = [...state.service, action.payload]
     },
     removeService: (state, action) => {
-      state.service = state.service.filter(s => s.vehicle_id !== action.payload)
+      state.service = state.service.filter(
+        (s) => s.vehicle_id !== action.payload
+      )
     },
     updateService: (state, action) => {
-      const index = state.service.findIndex(obj => {
+      const index = state.service.findIndex((obj) => {
         return obj.vehicle_id === action.payload.vehicle_id
       })
       state.service[index] = action.payload

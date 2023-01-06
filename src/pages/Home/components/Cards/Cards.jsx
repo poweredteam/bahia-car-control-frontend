@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useSelector } from 'react-redux'
 import { Card } from './index'
 import './Cards.css'

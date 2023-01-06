@@ -1,10 +1,8 @@
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react'
-import { createUserAdapter } from 'adapters'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-// import { useSearchParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { resetPassword } from 'redux/slices'
-import { useLocation, useRoute } from 'wouter'
+import { useRoute } from 'wouter'
 
 const initialState = {
   password: '',
@@ -12,9 +10,9 @@ const initialState = {
 }
 
 function Form() {
-  // const [searchParams] = useSearchParams()
-  const [match, params] = useRoute('/auth/new-password/:token')
-  const { msg, type } = useSelector((state) => state.auth.status)
+  // const [match, params] = useRoute('/auth/new-password/:token')
+  const [params] = useRoute('/auth/new-password/:token')
+  // const { msg, type } = useSelector((state) => state.auth.status)
   const [values, setValues] = useState(initialState)
   const [isWrong, setIsWrong] = useState(false)
   const dispatch = useDispatch()

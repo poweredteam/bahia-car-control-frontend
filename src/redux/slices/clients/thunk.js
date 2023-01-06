@@ -24,7 +24,7 @@ export const createClient = (data) => {
 export const relateLicense = (license, identification) => {
   return async (dispatch) => {
     try {
-      await api.put('licenseClient', { license_plate: license, identification: identification })
+      await api.put('licenseClient', { license_plate: license, identification })
     } catch (error) {
       console.log({
         status: 'Placa no relacionada'

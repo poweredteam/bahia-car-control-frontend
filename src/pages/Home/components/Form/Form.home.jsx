@@ -6,7 +6,10 @@ import { useForm } from 'react-hook-form'
 import { getStations } from '../../../../redux/slices/station/thunk'
 import { getTeches } from '../../../../redux/slices/tech/thunk.js'
 import { validateBack } from '../../../../redux/slices/services/thunk'
-import { relateLicense, createLicense } from '../../../../redux/slices/clients/thunk'
+import {
+  relateLicense,
+  createLicense
+} from '../../../../redux/slices/clients/thunk'
 import RegisterClient from '../RegisterClient/RegisterClient.jsx'
 import {
   Flex,
@@ -52,7 +55,10 @@ function Formcard() {
     })
   // Date & time
   const currentDate = new Date().toLocaleDateString()
-  const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  const currentTime = new Date().toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit'
+  })
   // Create service
   const serviceSubmit = (service) => {
     const { clientId, vehicle_id, workstation, technician } = service
@@ -62,9 +68,15 @@ function Formcard() {
       workstation,
       technician
     }
-    const placaFound = serviceRedux.filter((s) => s.vehicle_id === service.vehicle_id)
+    const placaFound = serviceRedux.filter(
+      (s) => s.vehicle_id === service.vehicle_id
+    )
     dispatch(validateBack(clientId, vehicle_id.toUpperCase())).then((res) => {
-      if (res.client === false && res.license === false && res.isRelated === false) {
+      if (
+        res.client === false &&
+        res.license === false &&
+        res.isRelated === false
+      ) {
         swal({
           title: 'Atención',
           text: 'El cliente y la placa no esta registrados ¿Quiere registrarlas y asociarlas?',
@@ -86,7 +98,11 @@ function Formcard() {
           }
         })
       }
-      if (res.client === true && res.license === false && res.isRelated === false) {
+      if (
+        res.client === true &&
+        res.license === false &&
+        res.isRelated === false
+      ) {
         swal({
           title: 'Atención',
           text: 'El cliente esta registrado pero la placa no esta creada ¿Quiere registrar la placa y asociarle al cliente?',
@@ -99,7 +115,9 @@ function Formcard() {
           switch (value) {
             case 'Si':
               await dispatch(createLicense(vehicle_id.toUpperCase()))
-              await dispatch(relateLicense(vehicle_id.toUpperCase(), service.clientId))
+              await dispatch(
+                relateLicense(vehicle_id.toUpperCase(), service.clientId)
+              )
               if (placaFound.length > 0) {
                 return notifyPlacaError()
               }
@@ -108,17 +126,19 @@ function Formcard() {
                 text: 'La placa ha sido creada y relacionada exitosamente, su servicio sera creado',
                 icon: 'success'
               })
-              await dispatch(addService({
-                ...service,
-                data: res.data,
-                type: '',
-                timer: null,
-                datetime: `${currentDate} ${currentTime}`,
-                kilometers: '',
-                goods: [],
-                driver: '',
-                comments: ''
-              }))
+              await dispatch(
+                addService({
+                  ...service,
+                  data: res.data,
+                  type: '',
+                  timer: null,
+                  datetime: `${currentDate} ${currentTime}`,
+                  kilometers: '',
+                  goods: [],
+                  driver: '',
+                  comments: ''
+                })
+              )
               break
             case 'No':
               onClose()
@@ -128,7 +148,11 @@ function Formcard() {
           }
         })
       }
-      if (res.client === false && res.license === true && res.isRelated === false) {
+      if (
+        res.client === false &&
+        res.license === true &&
+        res.isRelated === false
+      ) {
         swal({
           title: 'Atención',
           text: 'El cliente no esta registrado pero la placa existe ¿Quiere registrar al cliente y asociarle la placa?',
@@ -150,7 +174,11 @@ function Formcard() {
           }
         })
       }
-      if (res.client === true && res.license === true && res.isRelated === false) {
+      if (
+        res.client === true &&
+        res.license === true &&
+        res.isRelated === false
+      ) {
         swal({
           title: 'Atención',
           text: 'La placa no esta relacionada al cliente ¿Quiere relacionarla?',
@@ -171,17 +199,19 @@ function Formcard() {
               if (placaFound.length > 0) {
                 return notifyPlacaError()
               }
-              dispatch(addService({
-                ...service,
-                data: res.data,
-                type: '',
-                timer: null,
-                datetime: `${currentDate} ${currentTime}`,
-                kilometers: '',
-                goods: [],
-                driver: '',
-                comments: ''
-              }))
+              dispatch(
+                addService({
+                  ...service,
+                  data: res.data,
+                  type: '',
+                  timer: null,
+                  datetime: `${currentDate} ${currentTime}`,
+                  kilometers: '',
+                  goods: [],
+                  driver: '',
+                  comments: ''
+                })
+              )
               break
             case 'No':
               break
@@ -190,21 +220,27 @@ function Formcard() {
           }
         })
       }
-      if (res.client === true && res.license === true && res.isRelated === true) {
+      if (
+        res.client === true &&
+        res.license === true &&
+        res.isRelated === true
+      ) {
         if (placaFound.length > 0) {
           return notifyPlacaError()
         } else {
-          dispatch(addService({
-            ...service,
-            data: res.data,
-            type: '',
-            timer: null,
-            datetime: `${currentDate} ${currentTime}`,
-            kilometers: '',
-            goods: [],
-            driver: '',
-            comments: ''
-          }))
+          dispatch(
+            addService({
+              ...service,
+              data: res.data,
+              type: '',
+              timer: null,
+              datetime: `${currentDate} ${currentTime}`,
+              kilometers: '',
+              goods: [],
+              driver: '',
+              comments: ''
+            })
+          )
           reset()
           notify()
         }
@@ -212,7 +248,16 @@ function Formcard() {
     })
   }
   return (
-    <Box p={5} bg="gray.100" mt="5" h='90px' w='1041px' shadow='md' borderWidth='1px' borderRadius="md">
+    <Box
+      p={5}
+      bg="gray.100"
+      mt="5"
+      h="90px"
+      w="1041px"
+      shadow="md"
+      borderWidth="1px"
+      borderRadius="md"
+    >
       <form onSubmit={handleSubmit(serviceSubmit)}>
         <Flex align="center" justify="center">
           <HStack spacing="24px">
@@ -253,7 +298,8 @@ function Formcard() {
                 <Select
                   {...register('workstation', { required: true })}
                   placeholder="Estación"
-                  width="150px">
+                  width="150px"
+                >
                   {stationOptions.map((opt) => (
                     <option key={opt._id} value={opt.workStation}>
                       {opt.workStation}
@@ -270,7 +316,8 @@ function Formcard() {
                 <Select
                   {...register('technician', { required: true })}
                   placeholder="Tecnico"
-                  width="200px">
+                  width="200px"
+                >
                   {techOptions.map((option) => (
                     <option key={option._id} value={option.name}>
                       {option.name}
@@ -293,15 +340,15 @@ function Formcard() {
           </HStack>
         </Flex>
       </form>
-      <Modal isOpen={isOpen} onClose={onClose} width='fit-content'>
-          <ModalOverlay />
-          <ModalContent maxWidth={'none'} width={'fit-content'}>
-            <RegisterClient
-              onClose={onClose}
-              vehicle_id={getValues('vehicle_id')}
-              identificacion={getValues('clientId')}
-              />
-          </ModalContent>
+      <Modal isOpen={isOpen} onClose={onClose} width="fit-content">
+        <ModalOverlay />
+        <ModalContent maxWidth={'none'} width={'fit-content'}>
+          <RegisterClient
+            onClose={onClose}
+            vehicle_id={getValues('vehicle_id')}
+            identificacion={getValues('clientId')}
+          />
+        </ModalContent>
       </Modal>
     </Box>
   )

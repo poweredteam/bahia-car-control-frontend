@@ -26,7 +26,7 @@ export default function AccordionItem({ title, path, index }) {
         zIndex: '2',
         transition: 'right .2s ease'
       }}
-      >
+    >
       <div style={{ zIndex: '2' }}>
         <Link to={path}>
           <Text>{title}</Text>
